@@ -1,4 +1,4 @@
-package com.example.projektzd
+package com.example.projektzd.api
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
@@ -30,5 +30,6 @@ interface BooksApiService {
 }
 
 object BooksApi {
-    val booksApi: BooksApiService by lazy { retrofit.create(BooksApiService::class.java) }
+    val booksApi: BooksApiService by lazy { retrofit.create(
+        BooksApiService::class.java) }
 }

@@ -1,4 +1,4 @@
-package com.example.projektzd
+package com.example.projektzd.api
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
@@ -7,6 +7,7 @@ import kotlinx.android.parcel.Parcelize
 data class ItemsProperty(
     val id: String? = null,
     val volumeInfo: VolumeInfo? = null
+
 ) : Parcelable {
 
 }
