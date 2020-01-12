@@ -15,6 +15,4 @@ data class VolumeInfo(
     val imageLinks: ImageLinks? = null,
     val language: String? = null
 
-) : Parcelable {
-
-}
+) : Parcelable

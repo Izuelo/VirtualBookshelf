@@ -2,12 +2,10 @@ package com.example.projektzd
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import androidx.databinding.DataBindingUtil
-import com.example.projektzd.api.BooksApi
-import com.example.projektzd.api.BooksApiFilter
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.example.projektzd.databinding.ActivityMainBinding
-import kotlinx.coroutines.*
+import com.example.projektzd.recycleView.BooksOverview
 
 class MainActivity : AppCompatActivity() {
 
@@ -15,9 +13,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-
-
+        setContentView(R.layout.activity_main)
     }
+
 }
+
 

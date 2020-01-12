@@ -8,6 +8,4 @@ data class ItemsProperty(
     val id: String? = null,
     val volumeInfo: VolumeInfo? = null
 
-) : Parcelable {
-
-}
+) : Parcelable
