@@ -5,14 +5,14 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class VolumeInfo(
-    val authors: List<String>? = null,
-    val subtitle: String? = null,
-    val title: String? = null,
-    val publisher: String? = null,
-    val publishedDate: String? = null,
-    val pageCount: Int? = null,
-    val description: String? = null,
+    val authors: MutableList<String> = mutableListOf(),
+    val subtitle: String = "none",
+    val title: String = "none",
+    val publisher: String = "none",
+    val publishedDate: String = "none",
+    val pageCount: Int = 0,
+    val description: String = "none",
     val imageLinks: ImageLinks? = null,
-    val language: String? = null
+    val language: String = "none"
 
 ) : Parcelable

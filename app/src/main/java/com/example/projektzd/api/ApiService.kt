@@ -11,7 +11,7 @@ import retrofit2.http.Query
 
 val BASE_URL = "https://www.googleapis.com/books/v1/"
 
-enum class BooksApiFilter(val value: String) { SHOW_ITEMS("intitle:Harry Potter i Komnata Tajemnic") }
+enum class BooksApiFilter(val value: String) { SHOW_ITEMS("intitle:Harry Potter") }
 
 val moshi: Moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())

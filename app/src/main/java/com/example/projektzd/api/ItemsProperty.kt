@@ -5,7 +5,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class ItemsProperty(
-    val id: String? = null,
-    val volumeInfo: VolumeInfo? = null
+    val id: String = "none",
+    val volumeInfo: VolumeInfo
 
 ) : Parcelable
