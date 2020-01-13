@@ -3,4 +3,6 @@
     <string name="roll">Roll</string>
     <string name="_1">1</string>
     <string name="mainfragment">MainFragment</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>
