@@ -40,22 +40,6 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
 
         drawer.addDrawerListener(toggle)
         toggle.syncState()
-//        val response = GetResponse()
-
-//        recyclerAdapter = RecyclerAdapter()
-//        findViewById<RecyclerView>(R.id.books_list).adapter = recyclerAdapter
-//        findViewById<RecyclerView>(R.id.books_list).addItemDecoration(
-//            DividerItemDecoration(
-//                this,
-//                DividerItemDecoration.VERTICAL
-//            )
-//        )
-//
-//        response.getBooks().observe(this, Observer {
-//            it?.let {
-//                recyclerAdapter.setBooks(it)
-//            }
-//        })
     }
 
     override fun onNavigationItemSelected(item: MenuItem ): Boolean {
