@@ -47,9 +47,9 @@ class EntityFragment(
         binding.rentalDateTxt.text = book.rentalDate
         binding.returnDateTxt.text = book.returnDate
 
-        val imgUrl = book.thumbnail.replace("http://", "https://")
+        val imgUrl = book.thumbnail?.replace("http://", "https://")
         imgUrl.let {
-            val imgUri = imgUrl.toUri().buildUpon()?.build()
+            val imgUri = imgUrl?.toUri()?.buildUpon()?.build()
             Glide.with(GlobalApplication.appContext!!).load(imgUri)
                 .fitCenter()
                 .centerCrop()
@@ -78,8 +78,8 @@ class EntityFragment(
                 returnDateString,
                 calcRemainingDays()
             )
+            supportFragmentManager.popBackStack()
         }
-        supportFragmentManager.popBackStack()
     }
 
     @SuppressLint("SimpleDateFormat")

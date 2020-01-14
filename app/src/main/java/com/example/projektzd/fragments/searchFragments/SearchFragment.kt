@@ -56,12 +56,6 @@ class SearchFragment(
 
         binding.booksList.adapter = recyclerAdapterSearch
         binding.lifecycleOwner = this
-        binding.booksList.addItemDecoration(
-            DividerItemDecoration(
-                container?.context,
-                DividerItemDecoration.VERTICAL
-            )
-        )
 
         response.getBooks().observe(this, Observer {
             it?.let {
@@ -69,6 +63,7 @@ class SearchFragment(
                 recyclerAdapterSearch.setBooks(it)
             }
         })
+
 
         return binding.root
     }

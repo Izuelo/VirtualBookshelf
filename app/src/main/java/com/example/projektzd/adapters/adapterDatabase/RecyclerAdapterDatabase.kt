@@ -72,10 +72,10 @@ class RecyclerAdapterDatabase(
             rentalDate.text = book.rentalDate
             returnDate.text = book.returnDate
             daysLeft.text = book.remainingDays.toString()
-            val imgUrl = book.thumbnail.replace("http://", "https://")
+            val imgUrl = book.thumbnail?.replace("http://", "https://")
 
             imgUrl.let {
-                val imgUri = imgUrl.toUri().buildUpon()?.build()
+                val imgUri = imgUrl?.toUri()?.buildUpon()?.build()
                 Glide.with(itemView.context).load(imgUri)
                     .fitCenter()
                     .centerCrop()

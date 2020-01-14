@@ -44,12 +44,6 @@ class ListFragment(
                 })
 
         binding.databaseList.adapter = recyclerAdapterDatabase
-        binding.databaseList.addItemDecoration(
-            DividerItemDecoration(
-                container?.context,
-                DividerItemDecoration.VERTICAL
-            )
-        )
 
         entities.getEntities().observe(this, Observer {
             it?.let {

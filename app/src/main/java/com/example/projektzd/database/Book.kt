@@ -7,5 +7,5 @@ data class Book (
     val returnDate: String = "",
     val remainingDays: Int = 0,
     val pageCount: Int = 0,
-    val thumbnail: String = " "
+    val thumbnail: String? = " "
 )
