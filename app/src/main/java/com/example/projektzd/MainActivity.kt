@@ -1,9 +1,13 @@
 package com.example.projektzd
 
+import android.app.SearchManager
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -25,6 +29,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
+
         drawer = findViewById(R.id.drawer_layout)
 
         val navigationView: NavigationView = findViewById(R.id.nav_view)
@@ -40,6 +45,30 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawer.addDrawerListener(toggle)
         toggle.syncState()
     }
+
+//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+//        menuInflater.inflate(R.menu.options_menu, menu)
+//
+//        val myActionMenuItem = menu?.findItem(R.id.search)
+//
+//        val searchView = myActionMenuItem?.actionView as SearchView
+//        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+//            override fun onQueryTextSubmit(query: String): Boolean {
+////                UserFeedback.show("SearchOnQueryTextSubmit: $query")
+//                if (!searchView.isIconified) {
+//                    searchView.isIconified = true
+//                }
+//                myActionMenuItem.collapseActionView()
+//                return false
+//            }
+//
+//            override fun onQueryTextChange(s: String): Boolean {
+//                // UserFeedback.show( "SearchOnQueryTextChanged: " + s);
+//                return false
+//            }
+//        })
+//        return true
+//    }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {

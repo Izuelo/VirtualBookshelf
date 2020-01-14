@@ -58,7 +58,7 @@
             app:layout_constraintTop_toTopOf="@id/bookTitle" />
 
         <Button
-            android:id="@+id/addBtn"
+            android:id="@+id/updateBtn"
             android:layout_width="128dp"
             android:layout_height="50dp"
             android:layout_marginTop="35dp"
@@ -105,6 +105,16 @@
             android:text="Return date"
             app:layout_constraintStart_toStartOf="@+id/rentalDateBtn"
             app:layout_constraintTop_toBottomOf="@+id/returnDateBtn" />
+
+        <Button
+            android:id="@+id/deleteBtn"
+            android:layout_width="128dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="#FF8A80"
+            android:text="Delete"
+            app:layout_constraintStart_toStartOf="@+id/updateBtn"
+            app:layout_constraintTop_toBottomOf="@+id/updateBtn" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

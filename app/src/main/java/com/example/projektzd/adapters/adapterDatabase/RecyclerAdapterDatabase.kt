@@ -88,7 +88,11 @@ class RecyclerAdapterDatabase(
             val book: Book = getBook(adapterPosition)
             supportFragmentManager.beginTransaction().replace(
                 R.id.fragment_container,
-                EntityFragment(book, dbHelper)
+                EntityFragment(
+                    book,
+                    supportFragmentManager,
+                    dbHelper
+                )
             ).addToBackStack("BookFragment").commit()
         }
     }

@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.bumptech.glide.Glide
 import com.example.projektzd.GlobalApplication
 import com.example.projektzd.R
@@ -23,7 +24,11 @@ import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import java.util.*
 
-class BookFragment(private val book: ItemsProperty, private val dbHelper: DatabaseHelper) :
+class BookFragment(
+    private val book: ItemsProperty,
+    private val supportFragmentManager: FragmentManager,
+    val dbHelper: DatabaseHelper
+) :
     Fragment() {
 
     lateinit var binding: FragmentBookBinding
@@ -68,6 +73,8 @@ class BookFragment(private val book: ItemsProperty, private val dbHelper: Databa
                     book.volumeInfo.pageCount,
                     book.volumeInfo.imageLinks?.thumbnail
                 )
+
+                supportFragmentManager.popBackStack()
             } catch (e: Exception) {
                 e.printStackTrace()
             }

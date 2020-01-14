@@ -16,7 +16,6 @@ import com.example.projektzd.database.DatabaseHelper
 import com.example.projektzd.fragments.searchFragments.BookFragment
 import java.lang.ref.WeakReference
 
-
 class RecyclerAdapterSearch(
     private val supportFragmentManager: FragmentManager,
     private val dbHelper: DatabaseHelper,
@@ -39,6 +38,11 @@ class RecyclerAdapterSearch(
 
     override fun onBindViewHolder(holderSearch: ViewHolderSearch, position: Int) {
         holderSearch.bindModel(books[position])
+    }
+
+    fun clear() {
+        books.clear()
+        notifyDataSetChanged()
     }
 
     fun setBooks(data: List<ItemsProperty>) {
@@ -84,6 +88,7 @@ class RecyclerAdapterSearch(
                 R.id.fragment_container,
                 BookFragment(
                     itemsProperty,
+                    supportFragmentManager,
                     dbHelper
                 )
             ).addToBackStack("BookFragment").commit()

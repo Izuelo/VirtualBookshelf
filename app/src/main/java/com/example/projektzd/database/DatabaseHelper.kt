@@ -53,7 +53,7 @@ class DatabaseHelper(context: FragmentActivity?) :
 
     fun deleteData(id: String): Int {
         val db = this.writableDatabase
-        return db.delete(TABLE_NAME, "KSIAZKA = ?", arrayOf(id))
+        return db.delete(TABLE_NAME, "ID = ?", arrayOf(id))
     }
 
     fun updateData(id: String, start_date: String, return_date: String, remainingDays: Int) {
