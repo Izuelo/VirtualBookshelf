@@ -3,7 +3,7 @@ package com.example.projektzd.api
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.*
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
@@ -11,7 +11,9 @@ import retrofit2.http.Query
 
 val BASE_URL = "https://www.googleapis.com/books/v1/"
 
-enum class BooksApiFilter(val value: String) { SHOW_ITEMS("intitle:Harry Potter") }
+enum class BooksApiFilter(val value: String) {
+    SHOW_ITEMS("intitle:Harry Potter")
+}
 
 val moshi: Moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
@@ -30,6 +32,9 @@ interface BooksApiService {
 }
 
 object BooksApi {
-    val booksApi: BooksApiService by lazy { retrofit.create(
-        BooksApiService::class.java) }
+    val booksApi: BooksApiService by lazy {
+        retrofit.create(
+            BooksApiService::class.java
+        )
+    }
 }

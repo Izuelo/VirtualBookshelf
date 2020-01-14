@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="fragmentEntity"
+            type="com.example.projektzd.fragments.databaseFragments.EntityFragment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/bookThumbnail"
+            android:layout_width="128dp"
+            android:layout_height="178dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_launcher"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/bookTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:text="Title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/bookThumbnail"
+            app:layout_constraintTop_toTopOf="@id/bookThumbnail" />
+
+        <TextView
+            android:id="@+id/pageCount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:text="Page count"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/bookThumbnail"
+            app:layout_constraintTop_toTopOf="@id/bookTitle" />
+
+        <Button
+            android:id="@+id/updateBtn"
+            android:layout_width="128dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="35dp"
+            android:text="Update"
+            app:layout_constraintStart_toStartOf="@+id/returnDateBtn"
+            app:layout_constraintTop_toBottomOf="@+id/returnDateBtn" />
+
+        <Button
+            android:id="@+id/returnDateBtn"
+            android:layout_width="128dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="35dp"
+            android:text="Return date"
+            app:layout_constraintStart_toStartOf="@+id/rentalDateBtn"
+            app:layout_constraintTop_toBottomOf="@+id/rentalDateBtn" />
+
+        <Button
+            android:id="@+id/rentalDateBtn"
+            android:layout_width="128dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:text="Rental date"
+            app:layout_constraintStart_toStartOf="@+id/bookThumbnail"
+            app:layout_constraintTop_toBottomOf="@+id/bookThumbnail" />
+
+        <TextView
+            android:id="@+id/rentalDateTxt"
+            android:layout_width="128dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="center"
+            android:text="Rental date"
+            app:layout_constraintStart_toStartOf="@+id/rentalDateBtn"
+            app:layout_constraintTop_toBottomOf="@+id/rentalDateBtn" />
+
+        <TextView
+            android:id="@+id/returnDateTxt"
+            android:layout_width="128dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="center"
+            android:text="Return date"
+            app:layout_constraintStart_toStartOf="@+id/rentalDateBtn"
+            app:layout_constraintTop_toBottomOf="@+id/returnDateBtn" />
+
+        <Button
+            android:id="@+id/deleteBtn"
+            android:layout_width="128dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="#FF8A80"
+            android:text="Delete"
+            app:layout_constraintStart_toStartOf="@+id/updateBtn"
+            app:layout_constraintTop_toBottomOf="@+id/updateBtn" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
+
