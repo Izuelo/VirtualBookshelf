@@ -5,7 +5,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class ImageLinks(
-    val smallThumbnail: String? = null,
-    val thumbnail: String? = null
+    val smallThumbnail: String = " ",
+    val thumbnail: String = " "
 
 ) : Parcelable

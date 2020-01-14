@@ -1,30 +1,29 @@
-package com.example.projektzd.fragments
+package com.example.projektzd.fragments.searchFragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.LayoutInflater
-import android.view.MenuItem
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
-import com.example.projektzd.GetResponse
-import com.example.projektzd.GlobalApplication
+import com.example.projektzd.adapters.adapterSearch.GetResponse
 
 import com.example.projektzd.R
-import com.example.projektzd.api.RecyclerAdapter
-import com.example.projektzd.api.RecyclerViewClickListener
+import com.example.projektzd.adapters.adapterSearch.RecyclerAdapterSearch
+import com.example.projektzd.adapters.RecyclerViewClickListener
+import com.example.projektzd.database.DatabaseHelper
 import com.example.projektzd.databinding.FragmentSearchBinding
-import kotlinx.android.synthetic.main.fragment_search.view.*
 
 
-class SearchFragment(supportFragmentManager: FragmentManager) : Fragment() {
+class SearchFragment(
+    private val supportFragmentManager: FragmentManager,
+    private val dbHelper: DatabaseHelper
+) : Fragment() {
 
-    lateinit var recyclerAdapter: RecyclerAdapter
-    val supportFragmentManager = supportFragmentManager
+    lateinit var recyclerAdapterSearch: RecyclerAdapterSearch
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,13 +35,17 @@ class SearchFragment(supportFragmentManager: FragmentManager) : Fragment() {
             DataBindingUtil.inflate(inflater, R.layout.fragment_search, container, false)
         val response = GetResponse()
 
-        recyclerAdapter = RecyclerAdapter(supportFragmentManager, object : RecyclerViewClickListener {
-            override fun onClick(view: View, position: Int){
+        recyclerAdapterSearch =
+            RecyclerAdapterSearch(
+                supportFragmentManager,
+                dbHelper,
+                object : RecyclerViewClickListener {
+                    override fun onClick(view: View, position: Int) {
 
-            }
-        })
+                    }
+                })
 
-        binding.booksList.adapter = recyclerAdapter
+        binding.booksList.adapter = recyclerAdapterSearch
         binding.booksList.addItemDecoration(
             DividerItemDecoration(
                 container?.context,
@@ -52,7 +55,7 @@ class SearchFragment(supportFragmentManager: FragmentManager) : Fragment() {
 
         response.getBooks().observe(this, Observer {
             it?.let {
-                recyclerAdapter.setBooks(it)
+                recyclerAdapterSearch.setBooks(it)
             }
         })
 

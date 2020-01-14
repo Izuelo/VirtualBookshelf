@@ -4,7 +4,7 @@
     <data>
         <variable
             name="fragmentSearch"
-            type="com.example.projektzd.fragments.SearchFragment" />
+            type="com.example.projektzd.fragments.searchFragments.SearchFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

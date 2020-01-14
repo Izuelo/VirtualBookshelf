@@ -1,8 +1,5 @@
-package com.example.projektzd
+package com.example.projektzd.adapters.adapterSearch
 
-import android.app.Application
-import android.util.Log
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.projektzd.api.BooksApi
 import com.example.projektzd.api.BooksApiFilter
@@ -15,22 +12,19 @@ import kotlinx.coroutines.launch
 class GetResponse {
     var booksList = MutableLiveData<List<ItemsProperty>>()
     var viewModelJob = Job()
-    val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
+    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
     init {
         getApiResponse()
     }
 
-    fun getApiResponse() {
+    private fun getApiResponse() {
         coroutineScope.launch {
-            try {
-                val getPropertiesDeferred =
-                    BooksApi.booksApi.getProperties(BooksApiFilter.SHOW_ITEMS.value)
-                val listResult = getPropertiesDeferred.await().items
-                booksList.value = listResult
-            } catch (e: Exception) {
-                Log.i("eeeXXX", e.toString())
-            }
+            val getPropertiesDeferred =
+                BooksApi.booksApi.getProperties(BooksApiFilter.SHOW_ITEMS.value)
+            val listResult = getPropertiesDeferred.await().items
+            booksList.value = listResult
+
         }
     }
 

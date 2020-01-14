@@ -1,67 +1,64 @@
-package com.example.projektzd.api
+package com.example.projektzd.adapters.adapterSearch
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.projektzd.R
-import com.example.projektzd.fragments.BookFragment
+import com.example.projektzd.adapters.RecyclerViewClickListener
+import com.example.projektzd.api.ItemsProperty
+import com.example.projektzd.database.DatabaseHelper
+import com.example.projektzd.fragments.searchFragments.BookFragment
 import java.lang.ref.WeakReference
 
 
-class RecyclerAdapter(
-    supportFragmentManager: FragmentManager,
-    listener: RecyclerViewClickListener
-) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
+class RecyclerAdapterSearch(
+    private val supportFragmentManager: FragmentManager,
+    private val dbHelper: DatabaseHelper,
+    private val listener: RecyclerViewClickListener
+) : RecyclerView.Adapter<RecyclerAdapterSearch.ViewHolderSearch>() {
 
-    private val movies: MutableList<ItemsProperty> = mutableListOf()
-    private val listener = listener
-    private val supportFragmentManager = supportFragmentManager
+    private val books: MutableList<ItemsProperty> = mutableListOf()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderSearch {
         val layoutInflater = LayoutInflater.from(parent.context)
-        return ViewHolder(
+        return ViewHolderSearch(
             layoutInflater.inflate(R.layout.item_book_layout, parent, false),
-            listener,
-            supportFragmentManager
+            listener
         )
     }
 
     override fun getItemCount(): Int {
-        return movies.size
+        return books.size
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindModel(movies[position])
+    override fun onBindViewHolder(holderSearch: ViewHolderSearch, position: Int) {
+        holderSearch.bindModel(books[position])
     }
 
     fun setBooks(data: List<ItemsProperty>) {
-        movies.addAll(data)
+        books.addAll(data)
         notifyDataSetChanged()
     }
 
     fun getBook(position: Int): ItemsProperty {
-        return movies[position]
+        return books[position]
     }
 
-    inner class ViewHolder(
+    inner class ViewHolderSearch(
         itemView: View,
-        listener: RecyclerViewClickListener,
-        supportFragmentManager: FragmentManager
+        listener: RecyclerViewClickListener
     ) :
         RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
-        val bookTitle: TextView = itemView.findViewById(R.id.bookTitle)
-        val bookThumbnail: ImageView = itemView.findViewById(R.id.bookThumbnail)
-        val mListener: WeakReference<RecyclerViewClickListener> = WeakReference(listener)
+        private val bookTitle: TextView = itemView.findViewById(R.id.bookTitle)
+        private val bookThumbnail: ImageView = itemView.findViewById(R.id.bookThumbnail)
+        private val mListener: WeakReference<RecyclerViewClickListener> = WeakReference(listener)
 
         init {
             itemView.setOnClickListener(this)
@@ -85,13 +82,11 @@ class RecyclerAdapter(
             val itemsProperty: ItemsProperty = getBook(adapterPosition)
             supportFragmentManager.beginTransaction().replace(
                 R.id.fragment_container,
-                BookFragment(itemsProperty)
+                BookFragment(
+                    itemsProperty,
+                    dbHelper
+                )
             ).addToBackStack("BookFragment").commit()
         }
     }
-}
-
-interface RecyclerViewClickListener {
-
-    fun onClick(view: View, position: Int)
 }
