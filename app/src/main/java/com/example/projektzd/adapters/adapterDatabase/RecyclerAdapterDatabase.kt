@@ -1,11 +1,13 @@
 package com.example.projektzd.adapters.adapterDatabase
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.net.toUri
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -13,6 +15,7 @@ import com.example.projektzd.R
 import com.example.projektzd.adapters.RecyclerViewClickListener
 import com.example.projektzd.database.Book
 import com.example.projektzd.database.DatabaseHelper
+import com.example.projektzd.databinding.FragmentListBinding
 import com.example.projektzd.fragments.databaseFragments.EntityFragment
 import java.lang.ref.WeakReference
 
@@ -62,7 +65,7 @@ class RecyclerAdapterDatabase(
         private val daysLeft: TextView = itemView.findViewById(R.id.daysLeft)
         private val bookThumbnail: ImageView = itemView.findViewById(R.id.bookThumbnail)
         private val mListener: WeakReference<RecyclerViewClickListener> = WeakReference(listener)
-
+        private val favoriteBook: ImageView = itemView.findViewById(R.id.fill_heart)
         init {
             itemView.setOnClickListener(this)
         }
@@ -72,10 +75,23 @@ class RecyclerAdapterDatabase(
             rentalDate.text = book.rentalDate
             returnDate.text = book.returnDate
             daysLeft.text = book.remainingDays.toString()
-            val imgUrl = book.thumbnail.replace("http://", "https://")
+
+            val res = dbHelper.getFavorite(book.id)
+            var favorite = 0
+            while (res.moveToNext()) {
+                favorite = res.getInt(0)
+            }
+            if(favorite.equals(0)){
+                favoriteBook.setImageResource(R.drawable.unfilledfavorite)
+            }
+            else
+                favoriteBook.setImageResource(R.drawable.favorite_fill)
+
+
+            val imgUrl = book.thumbnail?.replace("http://", "https://")
 
             imgUrl.let {
-                val imgUri = imgUrl.toUri().buildUpon()?.build()
+                val imgUri = imgUrl?.toUri()?.buildUpon()?.build()
                 Glide.with(itemView.context).load(imgUri)
                     .fitCenter()
                     .centerCrop()

@@ -1,4 +1,4 @@
-package com.example.projektzd.fragments
+package com.example.projektzd.fragments.searchFragments
 
 import android.os.Bundle
 import android.text.Editable
@@ -26,7 +26,7 @@ import java.time.temporal.ChronoUnit
 import java.util.*
 
 
-class AddBookFragment : Fragment() {
+class FavoriteFragment : Fragment() {
     lateinit var binding: FragmentAddbookBinding
     lateinit var dbHelper: DatabaseHelper
     var startDateString: String = " "
@@ -217,6 +217,6 @@ class AddBookFragment : Fragment() {
 //    }
 //
 //    fun showToast(text: String) {
-////        Toast.makeText(this@AddBookFragment, text, Toast.LENGTH_LONG).show()
+////        Toast.makeText(this@FavoriteFragment, text, Toast.LENGTH_LONG).show()
 //    }
 }

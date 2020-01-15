@@ -3,7 +3,7 @@
     <data>
         <variable
             name="fragmentAddbook"
-            type="com.example.projektzd.fragments.AddBookFragment" />
+            type="com.example.projektzd.fragments.searchFragments.FavoriteFragment" />
     </data>
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"

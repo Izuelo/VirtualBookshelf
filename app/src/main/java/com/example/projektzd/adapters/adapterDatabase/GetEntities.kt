@@ -31,7 +31,8 @@ class GetEntities(private val dbHelper: DatabaseHelper) {
                     returnDate = res.getString(3),
                     remainingDays = res.getInt(4),
                     pageCount = res.getInt(5),
-                    thumbnail = res.getString(6)
+                    thumbnail = res.getString(6),
+                    favorite = res.getInt(7)
                 )
                 tempList.add(book)
             }

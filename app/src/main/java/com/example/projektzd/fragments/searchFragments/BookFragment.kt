@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.Toast
 
 import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
@@ -71,9 +73,11 @@ class BookFragment(
                     returnDateString,
                     calcRemainingDays(),
                     book.volumeInfo.pageCount,
-                    book.volumeInfo.imageLinks?.thumbnail
-                )
+                    book.volumeInfo.imageLinks?.thumbnail,
+                        false
 
+                )
+                showToast("Książka została dodana")
                 supportFragmentManager.popBackStack()
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -126,6 +130,7 @@ class BookFragment(
         }
     }
 
+
     private fun handleReturnDate(
         c: Calendar,
         year: Int,
@@ -163,6 +168,9 @@ class BookFragment(
             LocalDate.parse(returnDateString, formater)
         return ChronoUnit.DAYS.between(sysDate, valDate).toInt()
 
+    }
+    fun showToast(text: String){
+        Toast.makeText(activity,text, Toast.LENGTH_LONG).show()
     }
 
 }

@@ -11,7 +11,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import com.example.projektzd.fragments.AddBookFragment
+import com.example.projektzd.fragments.searchFragments.FavoriteFragment
 import com.example.projektzd.fragments.databaseFragments.ListFragment
 import com.example.projektzd.fragments.searchFragments.SearchFragment
 import com.google.android.material.navigation.NavigationView
@@ -88,8 +88,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             ).addToBackStack("SearchFragment").commit()
             R.id.nav_add -> supportFragmentManager.beginTransaction().replace(
                 R.id.fragment_container,
-                AddBookFragment()
-            ).addToBackStack("AddBook").commit()
+                FavoriteFragment()
+            ).addToBackStack("FavoriteBooks").commit()
         }
         drawer.closeDrawer(GravityCompat.START)
         return true
