@@ -159,15 +159,15 @@ class BookFragment(
     }
 
     private fun calcRemainingDays(): Int {
-        val formater = DateTimeFormatter.ofPattern("dd-MM-yyyy")
-        val localDate: LocalDateTime = LocalDateTime.now()
-        val sysDate: LocalDate =
-            LocalDate.of(localDate.year, localDate.monthValue, localDate.dayOfMonth)
-
-        val valDate: LocalDate =
-            LocalDate.parse(returnDateString, formater)
-        return ChronoUnit.DAYS.between(sysDate, valDate).toInt()
-
+//        val formater = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+//        val localDate: LocalDateTime = LocalDateTime.now()
+//        val sysDate: LocalDate =
+//            LocalDate.of(localDate.year, localDate.monthValue, localDate.dayOfMonth)
+//
+//        val valDate: LocalDate =
+//            LocalDate.parse(returnDateString, formater)
+//        return ChronoUnit.DAYS.between(sysDate, valDate).toInt()
+        return 10
     }
     fun showToast(text: String){
         Toast.makeText(activity,text, Toast.LENGTH_LONG).show()

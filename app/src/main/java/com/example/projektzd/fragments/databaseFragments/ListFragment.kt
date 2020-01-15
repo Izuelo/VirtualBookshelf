@@ -17,9 +17,13 @@ import com.example.projektzd.R
 import com.example.projektzd.adapters.*
 import com.example.projektzd.adapters.adapterDatabase.GetEntities
 import com.example.projektzd.adapters.adapterDatabase.RecyclerAdapterDatabase
+import com.example.projektzd.database.Book
 import com.example.projektzd.database.DatabaseHelper
 import com.example.projektzd.databinding.FragmentListBinding
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_entity.view.*
+import kotlinx.android.synthetic.main.fragment_search.*
 import java.lang.Exception
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -33,7 +37,7 @@ class ListFragment(
 ) : Fragment() {
 
     lateinit var recyclerAdapterDatabase: RecyclerAdapterDatabase
-
+    var favoriteOrNot = true
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -54,8 +58,12 @@ class ListFragment(
 
         binding.databaseList.adapter = recyclerAdapterDatabase
 
-        entities.getEntities().observe(this, Observer {
-            it?.let {
+
+        var listIt: MutableList<Book> = mutableListOf()
+
+        entities.getEntities().observe(this, Observer { favoritelist ->
+            favoritelist?.let { it ->
+                listIt.addAll(it)
                 recyclerAdapterDatabase.setBooks(it)
                 it.forEach {
                     it.remainingDays = calcRemainingDays(it.returnDate)
@@ -65,20 +73,44 @@ class ListFragment(
 
             }
         })
+
+        var favoriteListFragment: FloatingActionButton = binding.favorite
+
+        favoriteListFragment.setOnClickListener {
+            favoriteOrNot = !favoriteOrNot
+
+            if (favoriteOrNot) {
+                recyclerAdapterDatabase.setBooks(listIt)
+            } else {
+                var booksList: MutableList<Book> = mutableListOf()
+
+                listIt.forEach {
+                    if (it.favorite == 1)
+                        booksList.add(it)
+                }
+                Log.i("AAAAAAAAAAA"," "+booksList.toString()+ " ")
+                recyclerAdapterDatabase.setBooks(booksList)
+            }
+
+        }
+
+
+
+
         return binding.root
     }
 
 
     private fun calcRemainingDays(returnDateString: String): Int {
-        val formater = DateTimeFormatter.ofPattern("dd-MM-yyyy")
-        val localDate: LocalDateTime = LocalDateTime.now()
-        val sysDate: LocalDate =
-                LocalDate.of(localDate.year, localDate.monthValue, localDate.dayOfMonth)
-
-        val valDate: LocalDate =
-                LocalDate.parse(returnDateString, formater)
-        return ChronoUnit.DAYS.between(sysDate, valDate).toInt()
-
+//        val formater = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+//        val localDate: LocalDateTime = LocalDateTime.now()
+//        val sysDate: LocalDate =
+//                LocalDate.of(localDate.year, localDate.monthValue, localDate.dayOfMonth)
+//
+//        val valDate: LocalDate =
+//                LocalDate.parse(returnDateString, formater)
+//        return ChronoUnit.DAYS.between(sysDate, valDate).toInt()
+        return 20
     }
 
 }

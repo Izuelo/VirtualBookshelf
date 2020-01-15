@@ -72,23 +72,20 @@ class EntityFragment(
         handleUpdate()
         handlePickDate()
 
-
-
         return binding.root
     }
 
     fun changeFav(imageView: ImageView) {
-        val res = dbHelper.getFavorite(book.id)
-        var favorite = 0
-        while (res.moveToNext()) {
-            favorite = res.getInt(0)
+        val cursor = dbHelper.getFavorite(book.id)
+        var favorite = book.favorite
+        while (cursor.moveToNext()) {
+                favorite = cursor.getInt(0)
         }
         if (favorite.equals(0)) {
             imageView.setImageResource(R.drawable.unfilledfavorite)
         } else {
             imageView.setImageResource(R.drawable.favorite_fill)
         }
-
     }
 
     fun addToFavourite(imageView: ImageView) {
@@ -96,11 +93,11 @@ class EntityFragment(
         try {
 
             imageView.setOnClickListener {
-                val res = dbHelper.getFavorite(book.id)
+                val cursor = dbHelper.getFavorite(book.id)
                 var favorite = 0
-                while (res.moveToNext()) {
-                    favorite = res.getInt(0)
-                    Log.i("Favorite", res.getInt(0).toString())
+
+                while (cursor.moveToNext()) {
+                       favorite = cursor.getInt(0)
                 }
                 if (favorite.equals(0)) {
                     dbHelper.updateFavorite(book.id, 1)
