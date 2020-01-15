@@ -5,9 +5,9 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
+
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import com.example.projektzd.fragments.AddBookFragment
 import com.example.projektzd.fragments.databaseFragments.ListFragment
 import com.example.projektzd.fragments.searchFragments.SearchFragment
 import com.google.android.material.navigation.NavigationView
@@ -24,17 +24,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-
         drawer = findViewById(R.id.drawer_layout)
 
         val navigationView: NavigationView = findViewById(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener(this)
         val toggle = ActionBarDrawerToggle(
-            this,
-            drawer,
-            toolbar,
-            R.string.navigation_drawer_open,
-            R.string.navigation_drawer_close
+                this,
+                drawer,
+                toolbar,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close
         )
 
         drawer.addDrawerListener(toggle)
@@ -44,23 +43,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.nav_library -> supportFragmentManager.beginTransaction().replace(
-                R.id.fragment_container,
-                ListFragment(
-                    supportFragmentManager,
-                    dbHelper
-                )
+                    R.id.fragment_container,
+                    ListFragment(
+                            supportFragmentManager,
+                            dbHelper
+                    )
             ).addToBackStack("MyList").commit()
             R.id.nav_search -> supportFragmentManager.beginTransaction().replace(
-                R.id.fragment_container,
-                SearchFragment(
-                    supportFragmentManager,
-                    dbHelper
-                )
+                    R.id.fragment_container,
+                    SearchFragment(
+                            supportFragmentManager,
+                            dbHelper
+                    )
             ).addToBackStack("SearchFragment").commit()
-            R.id.nav_add -> supportFragmentManager.beginTransaction().replace(
-                R.id.fragment_container,
-                AddBookFragment()
-            ).addToBackStack("AddBook").commit()
         }
         drawer.closeDrawer(GravityCompat.START)
         return true
@@ -78,7 +73,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         }
     }
-
 }
 
 

@@ -6,10 +6,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.Toast
 
 import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.bumptech.glide.Glide
 import com.example.projektzd.GlobalApplication
 import com.example.projektzd.R
@@ -23,7 +26,11 @@ import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import java.util.*
 
-class BookFragment(private val book: ItemsProperty, private val dbHelper: DatabaseHelper) :
+class BookFragment(
+    private val book: ItemsProperty,
+    private val supportFragmentManager: FragmentManager,
+    val dbHelper: DatabaseHelper
+) :
     Fragment() {
 
     lateinit var binding: FragmentBookBinding
@@ -66,8 +73,12 @@ class BookFragment(private val book: ItemsProperty, private val dbHelper: Databa
                     returnDateString,
                     calcRemainingDays(),
                     book.volumeInfo.pageCount,
-                    book.volumeInfo.imageLinks?.thumbnail
+                    book.volumeInfo.imageLinks?.thumbnail,
+                        false
+
                 )
+                showToast("Książka została dodana")
+                supportFragmentManager.popBackStack()
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -119,6 +130,7 @@ class BookFragment(private val book: ItemsProperty, private val dbHelper: Databa
         }
     }
 
+
     private fun handleReturnDate(
         c: Calendar,
         year: Int,
@@ -156,6 +168,9 @@ class BookFragment(private val book: ItemsProperty, private val dbHelper: Databa
             LocalDate.parse(returnDateString, formater)
         return ChronoUnit.DAYS.between(sysDate, valDate).toInt()
 
+    }
+    fun showToast(text: String){
+        Toast.makeText(activity,text, Toast.LENGTH_LONG).show()
     }
 
 }
