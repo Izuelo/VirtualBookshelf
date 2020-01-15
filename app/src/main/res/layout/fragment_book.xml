@@ -57,6 +57,7 @@
             app:layout_constraintStart_toEndOf="@+id/bookThumbnail"
             app:layout_constraintTop_toTopOf="@id/bookTitle" />
 
+
         <Button
             android:id="@+id/addBtn"
             android:layout_width="128dp"
