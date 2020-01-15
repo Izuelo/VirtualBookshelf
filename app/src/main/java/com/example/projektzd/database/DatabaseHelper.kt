@@ -13,13 +13,13 @@ import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
 
 
 class DatabaseHelper(context: FragmentActivity?) :
-    SQLiteOpenHelper(context, DATABASE_NAME, null, 1) {
+        SQLiteOpenHelper(context, DATABASE_NAME, null, 1) {
 
     override fun onCreate(db: SQLiteDatabase) {
 
         db.execSQL(
-            "CREATE TABLE $TABLE_NAME ($COL_1 TEXT PRIMARY KEY,$COL_2 TEXT,$COL_3 TEXT,$COL_4 TEXT," +
-                    "$COL_5 INTEGER,$COL_6 INTEGER,$COL_7 TEXT,$COL_8 INTEGER)"
+                "CREATE TABLE $TABLE_NAME ($COL_1 TEXT PRIMARY KEY,$COL_2 TEXT,$COL_3 TEXT,$COL_4 TEXT," +
+                        "$COL_5 INTEGER,$COL_6 INTEGER,$COL_7 TEXT,$COL_8 INTEGER)"
         )
     }
 
@@ -34,20 +34,20 @@ class DatabaseHelper(context: FragmentActivity?) :
             return db.rawQuery("SELECT * FROM $TABLE_NAME", null)
         }
 
-    fun getFavorite(id: String): Cursor{
-
+    fun getFavorite(id: String): Cursor {
         val db = this.writableDatabase
-        return  db.rawQuery("SELECT $COL_8 FROM $TABLE_NAME WHERE $COL_1 = id;",null)
+        return db.rawQuery("SELECT $COL_8 FROM $TABLE_NAME WHERE $COL_1 = '"+id+"'", null)
     }
+
     fun insertData(
-        id: String,
-        name: String,
-        rentalDate: String,
-        returnDate: String,
-        remainingDays: Int,
-        pageCount: Int,
-        thumbnail: String? = " ",
-        favorite: Boolean
+            id: String,
+            name: String,
+            rentalDate: String,
+            returnDate: String,
+            remainingDays: Int,
+            pageCount: Int,
+            thumbnail: String? = " ",
+            favorite: Boolean
     ) {
         val db = this.writableDatabase
         val contentValues = ContentValues()
@@ -64,7 +64,6 @@ class DatabaseHelper(context: FragmentActivity?) :
     }
 
 
-
     fun deleteData(id: String): Int {
         val db = this.writableDatabase
         return db.delete(TABLE_NAME, "ID = ?", arrayOf(id))
@@ -78,16 +77,17 @@ class DatabaseHelper(context: FragmentActivity?) :
         contentValues.put(COL_5, remainingDays)
         db.update(TABLE_NAME, contentValues, "ID = ?", arrayOf(id))
     }
+
     fun updateFavorite(
             id: String,
             favorite: Int
-
-    ){
-        val db =this.writableDatabase
-       val contentValues = ContentValues()
-        contentValues.put(COL_8,favorite)
+    ) {
+        val db = this.writableDatabase
+        val contentValues = ContentValues()
+        contentValues.put(COL_8, favorite)
         db.update(TABLE_NAME, contentValues, "ID = ?", arrayOf(id))
     }
+
 
     companion object {
         const val DATABASE_NAME = "stars.db"

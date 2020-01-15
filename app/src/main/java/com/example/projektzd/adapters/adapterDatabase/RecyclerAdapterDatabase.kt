@@ -1,5 +1,6 @@
 package com.example.projektzd.adapters.adapterDatabase
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,6 +43,7 @@ class RecyclerAdapterDatabase(
     }
 
     fun setBooks(data: List<Book>) {
+        entities.clear()
         entities.addAll(data)
         notifyDataSetChanged()
     }
@@ -64,6 +66,7 @@ class RecyclerAdapterDatabase(
         private val mListener: WeakReference<RecyclerViewClickListener> = WeakReference(listener)
         private val favoriteBook: ImageView = itemView.findViewById(R.id.fill_heart)
 
+
         init {
             itemView.setOnClickListener(this)
         }
@@ -79,6 +82,7 @@ class RecyclerAdapterDatabase(
             while (res.moveToNext()) {
                 favorite = res.getInt(0)
             }
+            Log.i("Jestem zerem","id = " +book.id + favorite.toString())
             if (favorite.equals(0)) {
                 favoriteBook.setImageResource(R.drawable.unfilledfavorite)
             } else
@@ -95,6 +99,7 @@ class RecyclerAdapterDatabase(
             }
         }
 
+
         override fun onClick(v: View?) {
             mListener.get()?.onClick(v!!, adapterPosition)
             val book: Book = getBook(adapterPosition)
@@ -108,4 +113,5 @@ class RecyclerAdapterDatabase(
             ).addToBackStack("BookFragment").commit()
         }
     }
+
 }
