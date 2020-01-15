@@ -24,7 +24,7 @@ class GetEntities(private val dbHelper: DatabaseHelper) {
             val res = dbHelper.allData
             val tempList: MutableList<Book> = mutableListOf()
             while (res.moveToNext()) {
-                val book: Book = Book(
+                val book = Book(
                     id = res.getString(0),
                     title = res.getString(1),
                     rentalDate = res.getString(2),

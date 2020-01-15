@@ -31,8 +31,8 @@ class EntityFragment(
     Fragment() {
 
     lateinit var binding: FragmentEntityBinding
-    var rentalDateString: String = " "
-    var returnDateString: String = " "
+    private var rentalDateString: String = " "
+    private var returnDateString: String = " "
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,6 +46,8 @@ class EntityFragment(
         binding.pageCount.text = book.pageCount.toString()
         binding.rentalDateTxt.text = book.rentalDate
         binding.returnDateTxt.text = book.returnDate
+        rentalDateString = book.rentalDate
+        returnDateString = book.returnDate
 
         val imgUrl = book.thumbnail?.replace("http://", "https://")
         imgUrl.let {
@@ -90,9 +92,6 @@ class EntityFragment(
         val month = c.get(Calendar.MONTH)
         val day = c.get(Calendar.DAY_OF_MONTH)
         val sdf = SimpleDateFormat("dd-MM-yyyy")
-
-        rentalDateString = sdf.format(Date())
-        returnDateString = sdf.format(Date())
 
         handleRentalDate(c, year, month, day, sdf)
         handleReturnDate(c, year, month, day, sdf)

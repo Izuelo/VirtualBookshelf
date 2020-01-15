@@ -5,7 +5,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.projektzd.adapters.adapterSearch.GetResponse
 
 import com.example.projektzd.R
@@ -64,7 +63,6 @@ class SearchFragment(
             }
         })
 
-
         return binding.root
     }
 
@@ -82,12 +80,10 @@ class SearchFragment(
 
             queryTextListener = object : SearchView.OnQueryTextListener {
                 override fun onQueryTextChange(newText: String): Boolean {
-                    Log.i("onQueryTextChange", newText)
                     return true
                 }
 
                 override fun onQueryTextSubmit(query: String): Boolean {
-                    Log.i("onQueryTextSubmit", query)
                     response.getApiResponse(query)
                     searchView?.clearFocus()
                     return true
