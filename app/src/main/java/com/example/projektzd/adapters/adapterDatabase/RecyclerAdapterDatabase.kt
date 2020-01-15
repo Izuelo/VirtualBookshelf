@@ -18,9 +18,9 @@ import java.lang.ref.WeakReference
 
 
 class RecyclerAdapterDatabase(
-    private val supportFragmentManager: FragmentManager,
-    private val dbHelper: DatabaseHelper,
-    private val listener: RecyclerViewClickListener
+        private val supportFragmentManager: FragmentManager,
+        private val dbHelper: DatabaseHelper,
+        private val listener: RecyclerViewClickListener
 ) : RecyclerView.Adapter<RecyclerAdapterDatabase.ViewHolderDatabase>() {
 
     private val entities: MutableList<Book> = mutableListOf()
@@ -28,8 +28,8 @@ class RecyclerAdapterDatabase(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderDatabase {
         val layoutInflater = LayoutInflater.from(parent.context)
         return ViewHolderDatabase(
-            layoutInflater.inflate(R.layout.item_entity_layout, parent, false),
-            listener
+                layoutInflater.inflate(R.layout.item_entity_layout, parent, false),
+                listener
         )
     }
 
@@ -51,10 +51,10 @@ class RecyclerAdapterDatabase(
     }
 
     inner class ViewHolderDatabase(
-        itemView: View,
-        listener: RecyclerViewClickListener
+            itemView: View,
+            listener: RecyclerViewClickListener
     ) :
-        RecyclerView.ViewHolder(itemView), View.OnClickListener {
+            RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
         private val bookTitle: TextView = itemView.findViewById(R.id.bookTitle)
         private val rentalDate: TextView = itemView.findViewById(R.id.rentalDate)
@@ -62,6 +62,7 @@ class RecyclerAdapterDatabase(
         private val daysLeft: TextView = itemView.findViewById(R.id.daysLeft)
         private val bookThumbnail: ImageView = itemView.findViewById(R.id.bookThumbnail)
         private val mListener: WeakReference<RecyclerViewClickListener> = WeakReference(listener)
+        private val favoriteBook: ImageView = itemView.findViewById(R.id.fill_heart)
 
         init {
             itemView.setOnClickListener(this)
@@ -72,14 +73,25 @@ class RecyclerAdapterDatabase(
             rentalDate.text = book.rentalDate
             returnDate.text = book.returnDate
             daysLeft.text = book.remainingDays.toString()
+
+            val res = dbHelper.getFavorite(book.id)
+            var favorite = 0
+            while (res.moveToNext()) {
+                favorite = res.getInt(0)
+            }
+            if (favorite.equals(0)) {
+                favoriteBook.setImageResource(R.drawable.unfilledfavorite)
+            } else
+                favoriteBook.setImageResource(R.drawable.favorite_fill)
+
             val imgUrl = book.thumbnail?.replace("http://", "https://")
 
             imgUrl.let {
                 val imgUri = imgUrl?.toUri()?.buildUpon()?.build()
                 Glide.with(itemView.context).load(imgUri)
-                    .fitCenter()
-                    .centerCrop()
-                    .into(bookThumbnail)
+                        .fitCenter()
+                        .centerCrop()
+                        .into(bookThumbnail)
             }
         }
 
@@ -87,12 +99,12 @@ class RecyclerAdapterDatabase(
             mListener.get()?.onClick(v!!, adapterPosition)
             val book: Book = getBook(adapterPosition)
             supportFragmentManager.beginTransaction().replace(
-                R.id.fragment_container,
-                EntityFragment(
-                    book,
-                    supportFragmentManager,
-                    dbHelper
-                )
+                    R.id.fragment_container,
+                    EntityFragment(
+                            book,
+                            supportFragmentManager,
+                            dbHelper
+                    )
             ).addToBackStack("BookFragment").commit()
         }
     }

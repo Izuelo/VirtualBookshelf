@@ -85,8 +85,8 @@
                 android:layout_width="128dp"
                 android:layout_height="60dp"
                 android:layout_marginTop="10dp"
-                android:text="Rental date"
                 android:backgroundTint="@color/colorPrimaryLight"
+                android:text="Rental date"
                 app:layout_constraintStart_toStartOf="@+id/bookThumbnail"
                 app:layout_constraintTop_toBottomOf="@+id/bookThumbnail" />
 
@@ -95,8 +95,8 @@
                 android:layout_width="128dp"
                 android:layout_height="25dp"
                 android:gravity="center"
-                android:textStyle="bold"
                 android:text="Rental date"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/rentalDateBtn"
                 app:layout_constraintTop_toBottomOf="@+id/rentalDateBtn" />
 
@@ -116,14 +116,12 @@
                 android:layout_width="128dp"
                 android:layout_height="25dp"
                 android:gravity="center"
-                android:textStyle="bold"
                 android:text="Return date"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/rentalDateBtn"
                 app:layout_constraintTop_toBottomOf="@+id/returnDateBtn" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
-
-
 </layout>
 

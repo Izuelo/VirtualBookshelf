@@ -5,7 +5,9 @@ data class Book (
     val title: String = "none",
     val rentalDate: String = "",
     val returnDate: String = "",
-    val remainingDays: Int = 0,
+    var remainingDays: Int = 0,
     val pageCount: Int = 0,
-    val thumbnail: String? = " "
+    val thumbnail: String? = " ",
+    val favorite: Int = 0
+
 )
