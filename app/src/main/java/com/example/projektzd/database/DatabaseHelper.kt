@@ -19,7 +19,15 @@ class DatabaseHelper(context: FragmentActivity?) :
 
         db.execSQL(
                 "CREATE TABLE $TABLE_NAME ($COL_1 TEXT PRIMARY KEY,$COL_2 TEXT,$COL_3 TEXT,$COL_4 TEXT," +
-                        "$COL_5 INTEGER,$COL_6 INTEGER,$COL_7 TEXT,$COL_8 INTEGER)"
+                        "$COL_5 INTEGER,$COL_6 INTEGER,$COL_7 TEXT,$COL_8 INTEGER,$COL_9 INTEGER)"
+        )
+
+    }
+    fun reset(db: SQLiteDatabase){
+        db.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
+        db.execSQL(
+                "CREATE TABLE $TABLE_NAME ($COL_1 TEXT PRIMARY KEY,$COL_2 TEXT,$COL_3 TEXT,$COL_4 TEXT," +
+                        "$COL_5 INTEGER,$COL_6 INTEGER,$COL_7 TEXT,$COL_8 INTEGER,$COL_9 INTEGER)"
         )
     }
 
@@ -38,6 +46,10 @@ class DatabaseHelper(context: FragmentActivity?) :
         val db = this.writableDatabase
         return db.rawQuery("SELECT $COL_8 FROM $TABLE_NAME WHERE $COL_1 = '"+id+"'", null)
     }
+    fun getRead(id: String): Cursor {
+        val db = this.writableDatabase
+        return db.rawQuery("SELECT $COL_9 FROM $TABLE_NAME WHERE $COL_1 = '"+id+"'", null)
+    }
 
     fun insertData(
             id: String,
@@ -47,7 +59,8 @@ class DatabaseHelper(context: FragmentActivity?) :
             remainingDays: Int,
             pageCount: Int,
             thumbnail: String? = " ",
-            favorite: Boolean
+            favorite: Boolean,
+            read: Boolean
     ) {
         val db = this.writableDatabase
         val contentValues = ContentValues()
@@ -59,8 +72,8 @@ class DatabaseHelper(context: FragmentActivity?) :
         contentValues.put(COL_6, pageCount)
         contentValues.put(COL_7, thumbnail)
         contentValues.put(COL_8, favorite.toString())
+        contentValues.put(COL_9,read.toString())
         db.insert(TABLE_NAME, null, contentValues)
-
     }
 
 
@@ -87,19 +100,31 @@ class DatabaseHelper(context: FragmentActivity?) :
         contentValues.put(COL_8, favorite)
         db.update(TABLE_NAME, contentValues, "ID = ?", arrayOf(id))
     }
+    fun updateRead(
+            id: String,
+            read: Int
+    ) {
+        val db = this.writableDatabase
+        val contentValues = ContentValues()
+        contentValues.put(COL_9, read)
+        db.update(TABLE_NAME, contentValues, "ID = ?", arrayOf(id))
+    }
 
 
     companion object {
         const val DATABASE_NAME = "stars.db"
         const val TABLE_NAME = "star_table"
         const val COL_1 = "ID"
-        const val COL_2 = "KSIAZKA"
-        const val COL_3 = "DATA_WYP"
-        const val COL_4 = "DATA_ODD"
-        const val COL_5 = "POZOSTALE_DNI"
-        const val COL_6 = "LICZBA_STRON"
+        const val COL_2 = "TITLE"
+        const val COL_3 = "RENTAL_DATE"
+        const val COL_4 = "RETURN_DATE"
+        const val COL_5 = "REMAINING_DAYS"
+        const val COL_6 = "NUMBER_OF_PAGES"
         const val COL_7 = "THUMBNAIL"
         const val COL_8 = "FAVORITE"
+        const val COL_9 = "READ"
+
     }
+
 
 }

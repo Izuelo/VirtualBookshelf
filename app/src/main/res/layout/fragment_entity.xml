@@ -139,6 +139,14 @@
                 app:layout_constraintStart_toEndOf="@+id/bookThumbnail"
                 app:layout_constraintTop_toBottomOf="@+id/pageCount" />
 
+            <ImageView
+                android:id="@+id/read_view"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="92dp"
+                app:layout_constraintStart_toStartOf="@+id/fill_heart"
+                app:layout_constraintTop_toBottomOf="@+id/pageCount" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 

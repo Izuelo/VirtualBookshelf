@@ -30,7 +30,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/database_list"
             app:layout_constraintEnd_toEndOf="@+id/database_list"
             app:srcCompat="@drawable/fillheart80"
-            android:background="@color/colorPrimary"
+            android:backgroundTint="@color/colorPrimary"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             tools:ignore="VectorDrawableCompat" />

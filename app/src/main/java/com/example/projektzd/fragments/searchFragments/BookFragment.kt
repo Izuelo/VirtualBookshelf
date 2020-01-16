@@ -27,23 +27,23 @@ import java.time.temporal.ChronoUnit
 import java.util.*
 
 class BookFragment(
-    private val book: ItemsProperty,
-    private val supportFragmentManager: FragmentManager,
-    val dbHelper: DatabaseHelper
+        private val book: ItemsProperty,
+        private val supportFragmentManager: FragmentManager,
+        val dbHelper: DatabaseHelper
 ) :
-    Fragment() {
+        Fragment() {
 
     lateinit var binding: FragmentBookBinding
     var rentalDateString: String = " "
     var returnDateString: String = " "
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         binding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_book, container, false)
+                DataBindingUtil.inflate(inflater, R.layout.fragment_book, container, false)
 
         binding.bookTitle.text = book.volumeInfo.title
         binding.pageCount.text = book.volumeInfo.pageCount.toString()
@@ -52,9 +52,9 @@ class BookFragment(
         imgUrl?.let {
             val imgUri = imgUrl.toUri().buildUpon()?.build()
             Glide.with(GlobalApplication.appContext!!).load(imgUri)
-                .fitCenter()
-                .centerCrop()
-                .into(binding.bookThumbnail)
+                    .fitCenter()
+                    .centerCrop()
+                    .into(binding.bookThumbnail)
         }
         handleInserts()
         handlePickDate()
@@ -67,15 +67,15 @@ class BookFragment(
             try {
 
                 dbHelper.insertData(
-                    book.id,
-                    book.volumeInfo.title,
-                    rentalDateString,
-                    returnDateString,
-                    calcRemainingDays(),
-                    book.volumeInfo.pageCount,
-                    book.volumeInfo.imageLinks?.thumbnail,
+                        book.id,
+                        book.volumeInfo.title,
+                        rentalDateString,
+                        returnDateString,
+                        calcRemainingDays(),
+                        book.volumeInfo.pageCount,
+                        book.volumeInfo.imageLinks?.thumbnail,
+                        false,
                         false
-
                 )
                 showToast("Książka została dodana")
                 supportFragmentManager.popBackStack()
@@ -104,27 +104,27 @@ class BookFragment(
     }
 
     private fun handleRentalDate(
-        c: Calendar,
-        year: Int,
-        month: Int,
-        day: Int,
-        sdf: SimpleDateFormat
+            c: Calendar,
+            year: Int,
+            month: Int,
+            day: Int,
+            sdf: SimpleDateFormat
     ) {
         binding.rentalDateBtn.setOnClickListener {
             activity?.let { it1 ->
                 DatePickerDialog(
-                    it1,
-                    DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mDay ->
-                        c.set(Calendar.YEAR, mYear)
-                        c.set(Calendar.MONTH, mMonth)
-                        c.set(Calendar.DAY_OF_MONTH, mDay)
+                        it1,
+                        DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mDay ->
+                            c.set(Calendar.YEAR, mYear)
+                            c.set(Calendar.MONTH, mMonth)
+                            c.set(Calendar.DAY_OF_MONTH, mDay)
 
-                        rentalDateString = sdf.format(c.time)
-                        binding.rentalDateTxt.text = rentalDateString
-                    },
-                    year,
-                    month,
-                    day
+                            rentalDateString = sdf.format(c.time)
+                            binding.rentalDateTxt.text = rentalDateString
+                        },
+                        year,
+                        month,
+                        day
                 )
             }?.show()
         }
@@ -132,27 +132,27 @@ class BookFragment(
 
 
     private fun handleReturnDate(
-        c: Calendar,
-        year: Int,
-        month: Int,
-        day: Int,
-        sdf: SimpleDateFormat
+            c: Calendar,
+            year: Int,
+            month: Int,
+            day: Int,
+            sdf: SimpleDateFormat
     ) {
         binding.returnDateBtn.setOnClickListener {
             activity?.let { it1 ->
                 DatePickerDialog(
-                    it1,
-                    DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mDay ->
-                        c.set(Calendar.YEAR, mYear)
-                        c.set(Calendar.MONTH, mMonth)
-                        c.set(Calendar.DAY_OF_MONTH, mDay)
+                        it1,
+                        DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mDay ->
+                            c.set(Calendar.YEAR, mYear)
+                            c.set(Calendar.MONTH, mMonth)
+                            c.set(Calendar.DAY_OF_MONTH, mDay)
 
-                        returnDateString = sdf.format(c.time)
-                        binding.returnDateTxt.text = returnDateString
-                    },
-                    year,
-                    month,
-                    day
+                            returnDateString = sdf.format(c.time)
+                            binding.returnDateTxt.text = returnDateString
+                        },
+                        year,
+                        month,
+                        day
                 )
             }?.show()
         }
@@ -169,8 +169,9 @@ class BookFragment(
 //        return ChronoUnit.DAYS.between(sysDate, valDate).toInt()
         return 10
     }
-    fun showToast(text: String){
-        Toast.makeText(activity,text, Toast.LENGTH_LONG).show()
+
+    fun showToast(text: String) {
+        Toast.makeText(activity, text, Toast.LENGTH_LONG).show()
     }
 
 }
