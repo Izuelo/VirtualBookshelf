@@ -16,14 +16,14 @@ enum class BooksApiFilter(val value: String) {
 }
 
 val moshi: Moshi = Moshi.Builder()
-    .add(KotlinJsonAdapterFactory())
-    .build()
+        .add(KotlinJsonAdapterFactory())
+        .build()
 
 val retrofit: Retrofit = Retrofit.Builder()
-    .baseUrl(BASE_URL)
-    .addConverterFactory(MoshiConverterFactory.create(moshi))
-    .addCallAdapterFactory(CoroutineCallAdapterFactory())
-    .build()
+        .baseUrl(BASE_URL)
+        .addConverterFactory(MoshiConverterFactory.create(moshi))
+        .addCallAdapterFactory(CoroutineCallAdapterFactory())
+        .build()
 
 interface BooksApiService {
     @GET("volumes")
@@ -34,7 +34,7 @@ interface BooksApiService {
 object BooksApi {
     val booksApi: BooksApiService by lazy {
         retrofit.create(
-            BooksApiService::class.java
+                BooksApiService::class.java
         )
     }
 }

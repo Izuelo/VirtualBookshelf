@@ -30,6 +30,7 @@
                 app:srcCompat="@mipmap/ic_launcher" />
 
             <View
+                android:id="@+id/view"
                 android:layout_width="1dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="4dp"
@@ -53,6 +54,21 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/bookThumbnail"
                 app:layout_constraintTop_toTopOf="@+id/bookThumbnail" />
+
+            <TextView
+                android:id="@+id/author"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
+                android:textStyle="italic"
+                android:text="Author"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/bookThumbnail"
+                app:layout_constraintTop_toBottomOf="@+id/bookTitle"
+                app:layout_goneMarginBottom="16dp"
+                app:layout_goneMarginEnd="16dp" />
 
             <TextView
                 android:id="@+id/textView"

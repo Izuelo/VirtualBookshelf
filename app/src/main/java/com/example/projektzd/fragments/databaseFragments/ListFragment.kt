@@ -1,17 +1,14 @@
 package com.example.projektzd.fragments.databaseFragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.LayoutInflater
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.DividerItemDecoration
 
 import com.example.projektzd.R
 import com.example.projektzd.adapters.*
@@ -21,40 +18,36 @@ import com.example.projektzd.database.Book
 import com.example.projektzd.database.DatabaseHelper
 import com.example.projektzd.databinding.FragmentListBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_entity.view.*
-import kotlinx.android.synthetic.main.fragment_search.*
-import java.lang.Exception
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 
 class ListFragment(
-        private val supportFragmentManager: FragmentManager,
-        private val dbHelper: DatabaseHelper
+    private val supportFragmentManager: FragmentManager,
+    private val dbHelper: DatabaseHelper
 
 ) : Fragment() {
 
     lateinit var recyclerAdapterDatabase: RecyclerAdapterDatabase
     var favoriteOrNot = true
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         val binding: FragmentListBinding =
-                DataBindingUtil.inflate(inflater, R.layout.fragment_list, container, false)
+            DataBindingUtil.inflate(inflater, R.layout.fragment_list, container, false)
         val entities = GetEntities(dbHelper)
         recyclerAdapterDatabase =
-                RecyclerAdapterDatabase(
-                        supportFragmentManager,
-                        dbHelper,
-                        object : RecyclerViewClickListener {
-                            override fun onClick(view: View, position: Int) {
+            RecyclerAdapterDatabase(
+                supportFragmentManager,
+                dbHelper,
+                object : RecyclerViewClickListener {
+                    override fun onClick(view: View, position: Int) {
 
-                            }
-                        })
+                    }
+                })
 
         binding.databaseList.adapter = recyclerAdapterDatabase
 
@@ -68,7 +61,11 @@ class ListFragment(
                 it.forEach {
                     it.remainingDays = calcRemainingDays(it.returnDate)
                     if (it.remainingDays <= 3)
-                        Toast.makeText(activity, "Zbliża się termin oddania książki", Toast.LENGTH_LONG).show()
+                        Toast.makeText(
+                            activity,
+                            "Your rental period is coming to an end",
+                            Toast.LENGTH_LONG
+                        ).show()
                 }
 
             }
@@ -88,15 +85,10 @@ class ListFragment(
                     if (it.favorite == 1)
                         booksList.add(it)
                 }
-                Log.i("AAAAAAAAAAA"," "+booksList.toString()+ " ")
                 recyclerAdapterDatabase.setBooks(booksList)
             }
 
         }
-
-
-
-
         return binding.root
     }
 
@@ -105,6 +97,7 @@ class ListFragment(
         val formater = DateTimeFormatter.ofPattern("dd-MM-yyyy")
         val localDate: LocalDateTime = LocalDateTime.now()
         val sysDate: LocalDate =
+
                 LocalDate.of(localDate.year, localDate.monthValue, localDate.dayOfMonth)
 
         val valDate: LocalDate =

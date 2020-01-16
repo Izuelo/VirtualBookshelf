@@ -66,7 +66,7 @@ class RecyclerAdapterDatabase(
         private val mListener: WeakReference<RecyclerViewClickListener> = WeakReference(listener)
         private val favoriteBook: ImageView = itemView.findViewById(R.id.fill_heart)
         private val readBook: ImageView = itemView.findViewById(R.id.read_view)
-
+        private val author: TextView = itemView.findViewById(R.id.author)
         init {
             itemView.setOnClickListener(this)
         }
@@ -76,7 +76,7 @@ class RecyclerAdapterDatabase(
             rentalDate.text = book.rentalDate
             returnDate.text = book.returnDate
             daysLeft.text = book.remainingDays.toString()
-
+            author.text = book.authors
             val res = dbHelper.getFavorite(book.id)
             val cursor = dbHelper.getRead(book.id)
             var favorite = 0

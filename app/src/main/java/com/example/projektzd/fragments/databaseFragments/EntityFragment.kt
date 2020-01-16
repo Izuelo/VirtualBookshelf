@@ -1,7 +1,9 @@
 package com.example.projektzd.fragments.databaseFragments
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -16,15 +19,14 @@ import androidx.fragment.app.FragmentManager
 import com.bumptech.glide.Glide
 import com.example.projektzd.GlobalApplication
 import com.example.projektzd.R
-import com.example.projektzd.adapters.adapterDatabase.GetEntities
 import com.example.projektzd.database.Book
 import com.example.projektzd.database.DatabaseHelper
 import com.example.projektzd.databinding.FragmentEntityBinding
-import kotlinx.coroutines.coroutineScope
 import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import java.util.*
@@ -54,6 +56,8 @@ class EntityFragment(
         binding.pageCount.text = book.numberOfPages.toString()
         binding.rentalDateTxt.text = book.rentalDate
         binding.returnDateTxt.text = book.returnDate
+        binding.author.text = book.authors
+        binding.description.text = book.description
         rentalDateString = book.rentalDate
         returnDateString = book.returnDate
         changeFav(binding.fillHeart)
@@ -143,8 +147,22 @@ class EntityFragment(
                     dbHelper.updateRead(book.id, 1)
                     imageView.setImageResource(R.drawable.read_icon)
                 } else {
-                    dbHelper.updateRead(book.id, 0)
-                    imageView.setImageResource(R.drawable.unread_icon)
+                    var builder = AlertDialog.Builder(activity)
+                    builder.setTitle("Do you want to read this book again")
+                    builder.setMessage(book.title)
+                    //builder.setCancelable(true)
+                    builder.setPositiveButton("YES"){dialog, which->
+                        dbHelper.updateRead(book.id, 0)
+                        imageView.setImageResource(R.drawable.unread_icon)
+                        Toast.makeText(activity,"${book.title} is unread",Toast.LENGTH_SHORT).show()
+                    }
+                    builder.setNegativeButton("No"){dialog,which ->
+                        Toast.makeText(activity,"nothing has changed",Toast.LENGTH_SHORT).show()
+                    }
+                    val dialog: AlertDialog = builder.create()
+
+                    dialog.show()
+
                 }
 
             }
@@ -157,9 +175,21 @@ class EntityFragment(
 
     fun handleDelete() {
         binding.deleteBtn.setOnClickListener {
-            dbHelper.deleteData(book.id)
-            supportFragmentManager.popBackStack()
-            showToast("Książka została usunięta")
+            var builder = AlertDialog.Builder(activity)
+            builder.setTitle("Do you want to delete this book")
+            builder.setMessage(book.title)
+            builder.setPositiveButton("YES"){dialog, which->
+                dbHelper.deleteData(book.id)
+                supportFragmentManager.popBackStack()
+                showToast("${book.title} was removed")
+            }
+            builder.setNegativeButton("No"){dialog,which ->
+                Toast.makeText(activity,"nothing has changed",Toast.LENGTH_SHORT).show()
+            }
+            val dialog: AlertDialog = builder.create()
+
+            dialog.show()
+
         }
     }
 
@@ -198,6 +228,7 @@ class EntityFragment(
     ) {
         binding.rentalDateBtn.setOnClickListener {
             activity?.let { it1 ->
+
                 var dpd=DatePickerDialog(
                         it1,
                         DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mDay ->
@@ -212,12 +243,14 @@ class EntityFragment(
                         month,
                         day
                 )
+
                 dpd.datePicker.maxDate = System.currentTimeMillis()
                 dpd.show()
             }
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun handleReturnDate(
             c: Calendar,
             year: Int,
@@ -229,7 +262,6 @@ class EntityFragment(
             activity?.let { it1 ->
 
                 var dpd=DatePickerDialog(
-
                         it1,
                         DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mDay ->
                             c.set(Calendar.YEAR, mYear)

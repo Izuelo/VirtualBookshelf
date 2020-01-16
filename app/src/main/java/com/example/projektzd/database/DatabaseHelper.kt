@@ -19,7 +19,7 @@ class DatabaseHelper(context: FragmentActivity?) :
 
         db.execSQL(
                 "CREATE TABLE $TABLE_NAME ($COL_1 TEXT PRIMARY KEY,$COL_2 TEXT,$COL_3 TEXT,$COL_4 TEXT," +
-                        "$COL_5 INTEGER,$COL_6 INTEGER,$COL_7 TEXT,$COL_8 INTEGER,$COL_9 INTEGER)"
+                        "$COL_5 INTEGER,$COL_6 INTEGER,$COL_7 TEXT,$COL_8 INTEGER,$COL_9 INTEGER,$COL_10 TEXT,$COL_11 TEXT)"
         )
 
     }
@@ -27,7 +27,7 @@ class DatabaseHelper(context: FragmentActivity?) :
         db.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
         db.execSQL(
                 "CREATE TABLE $TABLE_NAME ($COL_1 TEXT PRIMARY KEY,$COL_2 TEXT,$COL_3 TEXT,$COL_4 TEXT," +
-                        "$COL_5 INTEGER,$COL_6 INTEGER,$COL_7 TEXT,$COL_8 INTEGER,$COL_9 INTEGER)"
+                        "$COL_5 INTEGER,$COL_6 INTEGER,$COL_7 TEXT,$COL_8 INTEGER,$COL_9 INTEGER,$COL_10 TEXT,$COL_11 TEXT)"
         )
     }
 
@@ -60,10 +60,15 @@ class DatabaseHelper(context: FragmentActivity?) :
             pageCount: Int,
             thumbnail: String? = " ",
             favorite: Boolean,
-            read: Boolean
+            read: Boolean,
+            authors: String? = " ",
+            description: String? = " "
+
     ) {
         val db = this.writableDatabase
         val contentValues = ContentValues()
+        reset(db)
+
         contentValues.put(COL_1, id)
         contentValues.put(COL_2, name)
         contentValues.put(COL_3, rentalDate)
@@ -73,6 +78,8 @@ class DatabaseHelper(context: FragmentActivity?) :
         contentValues.put(COL_7, thumbnail)
         contentValues.put(COL_8, favorite.toString())
         contentValues.put(COL_9,read.toString())
+        contentValues.put(COL_10,authors)
+        contentValues.put(COL_11,description)
         db.insert(TABLE_NAME, null, contentValues)
     }
 
@@ -123,7 +130,8 @@ class DatabaseHelper(context: FragmentActivity?) :
         const val COL_7 = "THUMBNAIL"
         const val COL_8 = "FAVORITE"
         const val COL_9 = "READ"
-
+        const val COL_10 = "PUBLISHER"
+        const val COL_11 = "DESCRIPTION"
     }
 
 

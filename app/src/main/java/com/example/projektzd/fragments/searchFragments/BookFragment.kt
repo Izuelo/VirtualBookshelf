@@ -37,6 +37,7 @@ class BookFragment(
     var rentalDateString: String = " "
     var returnDateString: String = " "
 
+
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -47,6 +48,9 @@ class BookFragment(
 
         binding.bookTitle.text = book.volumeInfo.title
         binding.pageCount.text = book.volumeInfo.pageCount.toString()
+        if(book.volumeInfo.authors.isNotEmpty())
+        binding.author.text = book.volumeInfo.authors[0]
+        binding.description.text = book.volumeInfo.description
 
         val imgUrl = book.volumeInfo.imageLinks?.thumbnail?.replace("http://", "https://")
         imgUrl?.let {
@@ -65,6 +69,9 @@ class BookFragment(
     private fun handleInserts() {
         binding.addBtn.setOnClickListener {
             try {
+                var author = " "
+                if(book.volumeInfo.authors.isNotEmpty())
+                 author = book.volumeInfo.authors[0]
 
                 dbHelper.insertData(
                         book.id,
@@ -75,9 +82,12 @@ class BookFragment(
                         book.volumeInfo.pageCount,
                         book.volumeInfo.imageLinks?.thumbnail,
                         false,
-                        false
+                        false,
+                        author,
+                        book.volumeInfo.description
+
                 )
-                showToast("Książka została dodana")
+                showToast("The book was added to Virtual Bookshelf")
                 supportFragmentManager.popBackStack()
             } catch (e: Exception) {
                 e.printStackTrace()
