@@ -122,24 +122,24 @@ class BookFragment(
     ) {
         binding.rentalDateBtn.setOnClickListener {
             activity?.let { it1 ->
-               var dpd = DatePickerDialog(
-                        it1,
-                        DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mDay ->
-                            c.set(Calendar.YEAR, mYear)
-                            c.set(Calendar.MONTH, mMonth)
-                            c.set(Calendar.DAY_OF_MONTH, mDay)
+                var dpd = DatePickerDialog(
+                    it1,
+                    DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mDay ->
+                        c.set(Calendar.YEAR, mYear)
+                        c.set(Calendar.MONTH, mMonth)
+                        c.set(Calendar.DAY_OF_MONTH, mDay)
 
-                            rentalDateString = sdf.format(c.time)
-                            binding.rentalDateTxt.text = rentalDateString
-                        },
-                        year,
-                        month,
-                        day
+                        rentalDateString = sdf.format(c.time)
+                        binding.rentalDateTxt.text = rentalDateString
+                    },
+                    year,
+                    month,
+                    day
                 )
-                dpd.datePicker.maxDate=System.currentTimeMillis()
+
+                dpd.datePicker.maxDate = System.currentTimeMillis()
                 dpd.show()
             }
-
         }
     }
 
@@ -153,7 +153,7 @@ class BookFragment(
     ) {
         binding.returnDateBtn.setOnClickListener {
             activity?.let { it1 ->
-              var dpd = DatePickerDialog(
+               var dpd = DatePickerDialog(
                         it1,
                         DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mDay ->
                             c.set(Calendar.YEAR, mYear)
@@ -167,23 +167,22 @@ class BookFragment(
                         month,
                         day
                 )
+
                 dpd.datePicker.minDate=System.currentTimeMillis()
                 dpd.show()
             }
-
         }
     }
 
     private fun calcRemainingDays(): Int {
-//        val formater = DateTimeFormatter.ofPattern("dd-MM-yyyy")
-//        val localDate: LocalDateTime = LocalDateTime.now()
-//        val sysDate: LocalDate =
-//            LocalDate.of(localDate.year, localDate.monthValue, localDate.dayOfMonth)
-//
-//        val valDate: LocalDate =
-//            LocalDate.parse(returnDateString, formater)
-//        return ChronoUnit.DAYS.between(sysDate, valDate).toInt()
-        return 10
+        val formater = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+        val localDate: LocalDateTime = LocalDateTime.now()
+        val sysDate: LocalDate =
+            LocalDate.of(localDate.year, localDate.monthValue, localDate.dayOfMonth)
+
+        val valDate: LocalDate =
+            LocalDate.parse(returnDateString, formater)
+        return ChronoUnit.DAYS.between(sysDate, valDate).toInt()
     }
 
     fun showToast(text: String) {

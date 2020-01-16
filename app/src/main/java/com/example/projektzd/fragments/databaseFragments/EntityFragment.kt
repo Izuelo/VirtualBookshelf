@@ -228,7 +228,8 @@ class EntityFragment(
     ) {
         binding.rentalDateBtn.setOnClickListener {
             activity?.let { it1 ->
-               var dpd = DatePickerDialog(
+
+                var dpd=DatePickerDialog(
                         it1,
                         DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mDay ->
                             c.set(Calendar.YEAR, mYear)
@@ -242,7 +243,8 @@ class EntityFragment(
                         month,
                         day
                 )
-                dpd.datePicker.maxDate=System.currentTimeMillis()
+
+                dpd.datePicker.maxDate = System.currentTimeMillis()
                 dpd.show()
             }
         }
@@ -258,7 +260,8 @@ class EntityFragment(
     ) {
         binding.returnDateBtn.setOnClickListener {
             activity?.let { it1 ->
-              var dpd =  DatePickerDialog(
+
+                var dpd=DatePickerDialog(
                         it1,
                         DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mDay ->
                             c.set(Calendar.YEAR, mYear)
@@ -272,11 +275,9 @@ class EntityFragment(
                         month,
                         day
                 )
-
                 dpd.datePicker.minDate=System.currentTimeMillis()
                 dpd.show()
             }
-
         }
     }
 

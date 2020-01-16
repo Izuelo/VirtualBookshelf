@@ -97,12 +97,12 @@ class ListFragment(
         val formater = DateTimeFormatter.ofPattern("dd-MM-yyyy")
         val localDate: LocalDateTime = LocalDateTime.now()
         val sysDate: LocalDate =
-            LocalDate.of(localDate.year, localDate.monthValue, localDate.dayOfMonth)
+
+                LocalDate.of(localDate.year, localDate.monthValue, localDate.dayOfMonth)
 
         val valDate: LocalDate =
-            LocalDate.parse(returnDateString, formater)
+                LocalDate.parse(returnDateString, formater)
         return ChronoUnit.DAYS.between(sysDate, valDate).toInt()
-        return 20
     }
 
 }
