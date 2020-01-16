@@ -14,7 +14,7 @@ import com.example.projektzd.adapters.RecyclerViewClickListener
 import com.example.projektzd.adapters.adapterDatabase.GetEntities
 import com.example.projektzd.adapters.adapterDatabase.RecyclerAdapterDatabase
 import com.example.projektzd.database.DatabaseHelper
-import com.example.projektzd.databinding.FragmentListCompletedBindingq
+import com.example.projektzd.databinding.FragmentListCompletedBinding
 
 class CompletedListFragment(
     private val supportFragmentManager: FragmentManager,
