@@ -10,4 +10,7 @@
     <string name="ReadButton">ReadButton</string>
     <string name="menuText">Menu</string>
     <string name="bookshelf">Welcome to \n Your Virtual Bookshelf</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

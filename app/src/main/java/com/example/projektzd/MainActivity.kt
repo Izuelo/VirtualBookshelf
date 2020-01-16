@@ -12,6 +12,7 @@ import com.example.projektzd.fragments.databaseFragments.ListFragment
 import com.example.projektzd.fragments.searchFragments.SearchFragment
 import com.google.android.material.navigation.NavigationView
 import com.example.projektzd.database.DatabaseHelper
+import com.example.projektzd.fragments.HomeFragment
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -38,10 +39,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         drawer.addDrawerListener(toggle)
         toggle.syncState()
+        if(savedInstanceState==null) {
+            supportFragmentManager.beginTransaction().replace(
+            R.id.fragment_container,
+            HomeFragment()
+            ).addToBackStack("HomeFragment").commit()
+        }
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            R.id.nav_home -> supportFragmentManager.beginTransaction().replace(
+                R.id.fragment_container,
+                HomeFragment()
+            ).addToBackStack("HomeFragment").commit()
             R.id.nav_library -> supportFragmentManager.beginTransaction().replace(
                     R.id.fragment_container,
                     ListFragment(
