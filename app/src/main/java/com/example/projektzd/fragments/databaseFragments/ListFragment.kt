@@ -68,7 +68,7 @@ class ListFragment(
                 it.forEach {
                     it.remainingDays = calcRemainingDays(it.returnDate)
                     if (it.remainingDays <= 3)
-                        Toast.makeText(activity, "Zbliża się termin oddania książki", Toast.LENGTH_LONG).show()
+                        Toast.makeText(activity, "Your rental period is coming to an end", Toast.LENGTH_LONG).show()
                 }
 
             }
@@ -88,7 +88,6 @@ class ListFragment(
                     if (it.favorite == 1)
                         booksList.add(it)
                 }
-                Log.i("AAAAAAAAAAA"," "+booksList.toString()+ " ")
                 recyclerAdapterDatabase.setBooks(booksList)
             }
 

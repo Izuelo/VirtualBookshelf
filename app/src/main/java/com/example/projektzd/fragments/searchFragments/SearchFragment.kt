@@ -60,6 +60,7 @@ class SearchFragment(
             it?.let {
                 recyclerAdapterSearch.clear()
                 recyclerAdapterSearch.setBooks(it)
+
             }
         })
 

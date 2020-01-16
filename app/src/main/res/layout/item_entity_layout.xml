@@ -20,6 +20,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <TextView
+                android:id="@+id/author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:text="@string/author"
+                app:layout_constraintBottom_toTopOf="@+id/rentalDate"
+                tools:layout_editor_absoluteX="141dp" />
+
             <ImageView
                 android:id="@+id/fill_heart"
                 android:layout_width="40dp"

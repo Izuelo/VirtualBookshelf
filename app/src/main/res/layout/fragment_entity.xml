@@ -147,6 +147,26 @@
                 app:layout_constraintStart_toStartOf="@+id/fill_heart"
                 app:layout_constraintTop_toBottomOf="@+id/pageCount" />
 
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/description"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/updateBtn"
+                tools:layout_editor_absoluteY="417dp" />
+
+            <TextView
+                android:id="@+id/author"
+                android:layout_width="59dp"
+                android:layout_height="21dp"
+                android:layout_marginStart="40dp"
+                android:text="@string/publisher"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.337"
+                app:layout_constraintStart_toEndOf="@+id/rentalDateBtn"
+                tools:layout_editor_absoluteY="218dp" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 
