@@ -154,10 +154,10 @@ class EntityFragment(
                     builder.setPositiveButton("YES"){dialog, which->
                         dbHelper.updateRead(book.id, 0)
                         imageView.setImageResource(R.drawable.unread_icon)
-                        Toast.makeText(activity,"${book.title} is unread",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(activity,"${book.title} is set as non read",Toast.LENGTH_SHORT).show()
                     }
                     builder.setNegativeButton("No"){dialog,which ->
-                        Toast.makeText(activity,"nothing has changed",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(activity,"Nothing has changed",Toast.LENGTH_SHORT).show()
                     }
                     val dialog: AlertDialog = builder.create()
 
@@ -184,7 +184,7 @@ class EntityFragment(
                 showToast("${book.title} was removed")
             }
             builder.setNegativeButton("No"){dialog,which ->
-                Toast.makeText(activity,"nothing has changed",Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity,"Nothing has changed",Toast.LENGTH_SHORT).show()
             }
             val dialog: AlertDialog = builder.create()
 
@@ -201,7 +201,7 @@ class EntityFragment(
                     returnDateString,
                     calcRemainingDays()
             )
-            showToast("Data zostałą zmieniona")
+            showToast("Date has changed")
             supportFragmentManager.popBackStack()
         }
     }

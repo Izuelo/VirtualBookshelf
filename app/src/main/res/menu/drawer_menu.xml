@@ -18,4 +18,19 @@
             android:title="Search"
             android:icon="@drawable/ic_search" />
     </group>
+
+    <item android:title="More options">
+        <menu>
+            <item
+                android:id="@+id/nav_help"
+                android:title="Help"
+                android:icon="@drawable/ic_help" />
+
+            <item
+                android:id="@+id/nav_info"
+                android:title="Authors"
+                android:icon="@drawable/ic_info" />
+        </menu>
+    </item>
+
 </menu>

@@ -12,6 +12,8 @@ import com.example.projektzd.fragments.databaseFragments.ListFragment
 import com.example.projektzd.fragments.searchFragments.SearchFragment
 import com.google.android.material.navigation.NavigationView
 import com.example.projektzd.database.DatabaseHelper
+import com.example.projektzd.fragments.AuthorsFragment
+import com.example.projektzd.fragments.HelpFragment
 import com.example.projektzd.fragments.HomeFragment
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -67,6 +69,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                             dbHelper
                     )
             ).addToBackStack("SearchFragment").commit()
+            R.id.nav_help -> supportFragmentManager.beginTransaction().replace(
+                R.id.fragment_container,
+                HelpFragment()
+            ).commit()
+            R.id.nav_info -> supportFragmentManager.beginTransaction().replace(
+                R.id.fragment_container,
+                AuthorsFragment()
+            ).commit()
         }
         drawer.closeDrawer(GravityCompat.START)
         return true
