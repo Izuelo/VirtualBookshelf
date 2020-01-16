@@ -19,9 +19,9 @@ import java.lang.ref.WeakReference
 
 
 class RecyclerAdapterDatabase(
-        private val supportFragmentManager: FragmentManager,
-        private val dbHelper: DatabaseHelper,
-        private val listener: RecyclerViewClickListener
+    private val supportFragmentManager: FragmentManager,
+    private val dbHelper: DatabaseHelper,
+    private val listener: RecyclerViewClickListener
 ) : RecyclerView.Adapter<RecyclerAdapterDatabase.ViewHolderDatabase>() {
 
     private val entities: MutableList<Book> = mutableListOf()
@@ -29,8 +29,8 @@ class RecyclerAdapterDatabase(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderDatabase {
         val layoutInflater = LayoutInflater.from(parent.context)
         return ViewHolderDatabase(
-                layoutInflater.inflate(R.layout.item_entity_layout, parent, false),
-                listener
+            layoutInflater.inflate(R.layout.item_entity_layout, parent, false),
+            listener
         )
     }
 
@@ -53,10 +53,10 @@ class RecyclerAdapterDatabase(
     }
 
     inner class ViewHolderDatabase(
-            itemView: View,
-            listener: RecyclerViewClickListener
+        itemView: View,
+        listener: RecyclerViewClickListener
     ) :
-            RecyclerView.ViewHolder(itemView), View.OnClickListener {
+        RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
         private val bookTitle: TextView = itemView.findViewById(R.id.bookTitle)
         private val rentalDate: TextView = itemView.findViewById(R.id.rentalDate)
@@ -67,6 +67,7 @@ class RecyclerAdapterDatabase(
         private val favoriteBook: ImageView = itemView.findViewById(R.id.fill_heart)
         private val readBook: ImageView = itemView.findViewById(R.id.read_view)
         private val author: TextView = itemView.findViewById(R.id.author)
+
         init {
             itemView.setOnClickListener(this)
         }
@@ -84,7 +85,7 @@ class RecyclerAdapterDatabase(
             while (res.moveToNext()) {
                 favorite = res.getInt(0)
             }
-            while (cursor.moveToNext()){
+            while (cursor.moveToNext()) {
                 read = cursor.getInt(0)
             }
             if (favorite.equals(0)) {
@@ -102,9 +103,9 @@ class RecyclerAdapterDatabase(
             imgUrl.let {
                 val imgUri = imgUrl?.toUri()?.buildUpon()?.build()
                 Glide.with(itemView.context).load(imgUri)
-                        .fitCenter()
-                        .centerCrop()
-                        .into(bookThumbnail)
+                    .fitCenter()
+                    .centerCrop()
+                    .into(bookThumbnail)
             }
         }
 
@@ -112,13 +113,18 @@ class RecyclerAdapterDatabase(
         override fun onClick(v: View?) {
             mListener.get()?.onClick(v!!, adapterPosition)
             val book: Book = getBook(adapterPosition)
-            supportFragmentManager.beginTransaction().replace(
-                    R.id.fragment_container,
-                    EntityFragment(
-                            book,
-                            supportFragmentManager,
-                            dbHelper
-                    )
+            supportFragmentManager.beginTransaction().setCustomAnimations(
+                R.anim.slide_in_top,
+                R.anim.slide_out_bottom,
+                R.anim.slide_in_bottom,
+                R.anim.slide_out_top
+            ).replace(
+                R.id.fragment_container,
+                EntityFragment(
+                    book,
+                    supportFragmentManager,
+                    dbHelper
+                )
             ).addToBackStack("BookFragment").commit()
         }
     }

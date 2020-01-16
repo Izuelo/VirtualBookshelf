@@ -88,7 +88,12 @@ class RecyclerAdapterSearch(
         override fun onClick(v: View?) {
             mListener.get()?.onClick(v!!, adapterPosition)
             val itemsProperty: ItemsProperty = getBook(adapterPosition)
-            supportFragmentManager.beginTransaction().replace(
+            supportFragmentManager.beginTransaction().setCustomAnimations(
+                R.anim.slide_in_top,
+                R.anim.slide_out_bottom,
+                R.anim.slide_in_bottom,
+                R.anim.slide_out_top
+            ).replace(
                 R.id.fragment_container,
                 BookFragment(
                     itemsProperty,

@@ -13,21 +13,22 @@ import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
 
 
 class DatabaseHelper(context: FragmentActivity?) :
-        SQLiteOpenHelper(context, DATABASE_NAME, null, 1) {
+    SQLiteOpenHelper(context, DATABASE_NAME, null, 1) {
 
     override fun onCreate(db: SQLiteDatabase) {
 
         db.execSQL(
-                "CREATE TABLE $TABLE_NAME ($COL_1 TEXT PRIMARY KEY,$COL_2 TEXT,$COL_3 TEXT,$COL_4 TEXT," +
-                        "$COL_5 INTEGER,$COL_6 INTEGER,$COL_7 TEXT,$COL_8 INTEGER,$COL_9 INTEGER,$COL_10 TEXT,$COL_11 TEXT)"
+            "CREATE TABLE $TABLE_NAME ($COL_1 TEXT PRIMARY KEY,$COL_2 TEXT,$COL_3 TEXT,$COL_4 TEXT," +
+                    "$COL_5 INTEGER,$COL_6 INTEGER,$COL_7 TEXT,$COL_8 INTEGER,$COL_9 INTEGER,$COL_10 TEXT,$COL_11 TEXT)"
         )
 
     }
-    fun reset(db: SQLiteDatabase){
+
+    fun reset(db: SQLiteDatabase) {
         db.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
         db.execSQL(
-                "CREATE TABLE $TABLE_NAME ($COL_1 TEXT PRIMARY KEY,$COL_2 TEXT,$COL_3 TEXT,$COL_4 TEXT," +
-                        "$COL_5 INTEGER,$COL_6 INTEGER,$COL_7 TEXT,$COL_8 INTEGER,$COL_9 INTEGER,$COL_10 TEXT,$COL_11 TEXT)"
+            "CREATE TABLE $TABLE_NAME ($COL_1 TEXT PRIMARY KEY,$COL_2 TEXT,$COL_3 TEXT,$COL_4 TEXT," +
+                    "$COL_5 INTEGER,$COL_6 INTEGER,$COL_7 TEXT,$COL_8 INTEGER,$COL_9 INTEGER,$COL_10 TEXT,$COL_11 TEXT)"
         )
     }
 
@@ -44,25 +45,26 @@ class DatabaseHelper(context: FragmentActivity?) :
 
     fun getFavorite(id: String): Cursor {
         val db = this.writableDatabase
-        return db.rawQuery("SELECT $COL_8 FROM $TABLE_NAME WHERE $COL_1 = '"+id+"'", null)
+        return db.rawQuery("SELECT $COL_8 FROM $TABLE_NAME WHERE $COL_1 = '" + id + "'", null)
     }
+
     fun getRead(id: String): Cursor {
         val db = this.writableDatabase
-        return db.rawQuery("SELECT $COL_9 FROM $TABLE_NAME WHERE $COL_1 = '"+id+"'", null)
+        return db.rawQuery("SELECT $COL_9 FROM $TABLE_NAME WHERE $COL_1 = '" + id + "'", null)
     }
 
     fun insertData(
-            id: String,
-            name: String,
-            rentalDate: String,
-            returnDate: String,
-            remainingDays: Int,
-            pageCount: Int,
-            thumbnail: String? = " ",
-            favorite: Boolean,
-            read: Boolean,
-            authors: String? = " ",
-            description: String? = " "
+        id: String,
+        name: String,
+        rentalDate: String,
+        returnDate: String,
+        remainingDays: Int,
+        pageCount: Int,
+        thumbnail: String? = " ",
+        favorite: Boolean,
+        read: Boolean,
+        authors: String? = " ",
+        description: String? = " "
 
     ) {
         val db = this.writableDatabase
@@ -77,9 +79,9 @@ class DatabaseHelper(context: FragmentActivity?) :
         contentValues.put(COL_6, pageCount)
         contentValues.put(COL_7, thumbnail)
         contentValues.put(COL_8, favorite.toString())
-        contentValues.put(COL_9,read.toString())
-        contentValues.put(COL_10,authors)
-        contentValues.put(COL_11,description)
+        contentValues.put(COL_9, read.toString())
+        contentValues.put(COL_10, authors)
+        contentValues.put(COL_11, description)
         db.insert(TABLE_NAME, null, contentValues)
     }
 
@@ -99,17 +101,18 @@ class DatabaseHelper(context: FragmentActivity?) :
     }
 
     fun updateFavorite(
-            id: String,
-            favorite: Int
+        id: String,
+        favorite: Int
     ) {
         val db = this.writableDatabase
         val contentValues = ContentValues()
         contentValues.put(COL_8, favorite)
         db.update(TABLE_NAME, contentValues, "ID = ?", arrayOf(id))
     }
+
     fun updateRead(
-            id: String,
-            read: Int
+        id: String,
+        read: Int
     ) {
         val db = this.writableDatabase
         val contentValues = ContentValues()
@@ -133,6 +136,5 @@ class DatabaseHelper(context: FragmentActivity?) :
         const val COL_10 = "PUBLISHER"
         const val COL_11 = "DESCRIPTION"
     }
-
 
 }

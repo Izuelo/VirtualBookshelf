@@ -26,18 +26,17 @@ import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import java.util.*
 
 class EntityFragment(
-        private val book: Book,
-        private val supportFragmentManager: FragmentManager,
-        private val dbHelper: DatabaseHelper
+    private val book: Book,
+    private val supportFragmentManager: FragmentManager,
+    private val dbHelper: DatabaseHelper
 
 ) :
-        Fragment() {
+    Fragment() {
 
     lateinit var binding: FragmentEntityBinding
     private var rentalDateString: String = " "
@@ -45,12 +44,12 @@ class EntityFragment(
 
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         binding =
-                DataBindingUtil.inflate(inflater, R.layout.fragment_entity, container, false)
+            DataBindingUtil.inflate(inflater, R.layout.fragment_entity, container, false)
 
         binding.bookTitle.text = book.title
         binding.pageCount.text = book.numberOfPages.toString()
@@ -68,9 +67,9 @@ class EntityFragment(
         imgUrl.let {
             val imgUri = imgUrl?.toUri()?.buildUpon()?.build()
             Glide.with(GlobalApplication.appContext!!).load(imgUri)
-                    .fitCenter()
-                    .centerCrop()
-                    .into(binding.bookThumbnail)
+                .fitCenter()
+                .centerCrop()
+                .into(binding.bookThumbnail)
         }
 
         handleDelete()
@@ -92,11 +91,12 @@ class EntityFragment(
             imageView.setImageResource(R.drawable.read_icon)
         }
     }
+
     fun changeFav(imageView: ImageView) {
         val cursor = dbHelper.getFavorite(book.id)
         var favorite = book.favorite
         while (cursor.moveToNext()) {
-                favorite = cursor.getInt(0)
+            favorite = cursor.getInt(0)
         }
         if (favorite == 0) {
             imageView.setImageResource(R.drawable.unfilledfavorite)
@@ -114,7 +114,7 @@ class EntityFragment(
                 var favorite = 0
 
                 while (cursor.moveToNext()) {
-                       favorite = cursor.getInt(0)
+                    favorite = cursor.getInt(0)
                 }
                 if (favorite.equals(0)) {
                     dbHelper.updateFavorite(book.id, 1)
@@ -131,6 +131,7 @@ class EntityFragment(
 
         }
     }
+
     fun addToRead(imageView: ImageView) {
 
         try {
@@ -151,13 +152,17 @@ class EntityFragment(
                     builder.setTitle("Do you want to read this book again")
                     builder.setMessage(book.title)
                     //builder.setCancelable(true)
-                    builder.setPositiveButton("YES"){dialog, which->
+                    builder.setPositiveButton("YES") { dialog, which ->
                         dbHelper.updateRead(book.id, 0)
                         imageView.setImageResource(R.drawable.unread_icon)
-                        Toast.makeText(activity,"${book.title} is set as non read",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            activity,
+                            "${book.title} is set as non read",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
-                    builder.setNegativeButton("No"){dialog,which ->
-                        Toast.makeText(activity,"Nothing has changed",Toast.LENGTH_SHORT).show()
+                    builder.setNegativeButton("No") { dialog, which ->
+                        Toast.makeText(activity, "Nothing has changed", Toast.LENGTH_SHORT).show()
                     }
                     val dialog: AlertDialog = builder.create()
 
@@ -178,13 +183,13 @@ class EntityFragment(
             var builder = AlertDialog.Builder(activity)
             builder.setTitle("Do you want to delete this book")
             builder.setMessage(book.title)
-            builder.setPositiveButton("YES"){dialog, which->
+            builder.setPositiveButton("YES") { dialog, which ->
                 dbHelper.deleteData(book.id)
                 supportFragmentManager.popBackStack()
                 showToast("${book.title} was removed")
             }
-            builder.setNegativeButton("No"){dialog,which ->
-                Toast.makeText(activity,"Nothing has changed",Toast.LENGTH_SHORT).show()
+            builder.setNegativeButton("No") { dialog, which ->
+                Toast.makeText(activity, "Nothing has changed", Toast.LENGTH_SHORT).show()
             }
             val dialog: AlertDialog = builder.create()
 
@@ -196,10 +201,10 @@ class EntityFragment(
     private fun handleUpdate() {
         binding.updateBtn.setOnClickListener {
             dbHelper.updateData(
-                    book.id,
-                    rentalDateString,
-                    returnDateString,
-                    calcRemainingDays()
+                book.id,
+                rentalDateString,
+                returnDateString,
+                calcRemainingDays()
             )
             showToast("Date has changed")
             supportFragmentManager.popBackStack()
@@ -220,28 +225,28 @@ class EntityFragment(
     }
 
     private fun handleRentalDate(
-            c: Calendar,
-            year: Int,
-            month: Int,
-            day: Int,
-            sdf: SimpleDateFormat
+        c: Calendar,
+        year: Int,
+        month: Int,
+        day: Int,
+        sdf: SimpleDateFormat
     ) {
         binding.rentalDateBtn.setOnClickListener {
             activity?.let { it1 ->
 
-                var dpd=DatePickerDialog(
-                        it1,
-                        DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mDay ->
-                            c.set(Calendar.YEAR, mYear)
-                            c.set(Calendar.MONTH, mMonth)
-                            c.set(Calendar.DAY_OF_MONTH, mDay)
+                var dpd = DatePickerDialog(
+                    it1,
+                    DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mDay ->
+                        c.set(Calendar.YEAR, mYear)
+                        c.set(Calendar.MONTH, mMonth)
+                        c.set(Calendar.DAY_OF_MONTH, mDay)
 
-                            rentalDateString = sdf.format(c.time)
-                            binding.rentalDateTxt.text = rentalDateString
-                        },
-                        year,
-                        month,
-                        day
+                        rentalDateString = sdf.format(c.time)
+                        binding.rentalDateTxt.text = rentalDateString
+                    },
+                    year,
+                    month,
+                    day
                 )
 
                 dpd.datePicker.maxDate = System.currentTimeMillis()
@@ -252,30 +257,30 @@ class EntityFragment(
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun handleReturnDate(
-            c: Calendar,
-            year: Int,
-            month: Int,
-            day: Int,
-            sdf: SimpleDateFormat
+        c: Calendar,
+        year: Int,
+        month: Int,
+        day: Int,
+        sdf: SimpleDateFormat
     ) {
         binding.returnDateBtn.setOnClickListener {
             activity?.let { it1 ->
 
-                var dpd=DatePickerDialog(
-                        it1,
-                        DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mDay ->
-                            c.set(Calendar.YEAR, mYear)
-                            c.set(Calendar.MONTH, mMonth)
-                            c.set(Calendar.DAY_OF_MONTH, mDay)
+                var dpd = DatePickerDialog(
+                    it1,
+                    DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mDay ->
+                        c.set(Calendar.YEAR, mYear)
+                        c.set(Calendar.MONTH, mMonth)
+                        c.set(Calendar.DAY_OF_MONTH, mDay)
 
-                            returnDateString = sdf.format(c.time)
-                            binding.returnDateTxt.text = returnDateString
-                        },
-                        year,
-                        month,
-                        day
+                        returnDateString = sdf.format(c.time)
+                        binding.returnDateTxt.text = returnDateString
+                    },
+                    year,
+                    month,
+                    day
                 )
-                dpd.datePicker.minDate=System.currentTimeMillis()
+                dpd.datePicker.minDate = System.currentTimeMillis()
                 dpd.show()
             }
         }
@@ -285,10 +290,10 @@ class EntityFragment(
         val formater = DateTimeFormatter.ofPattern("dd-MM-yyyy")
         val localDate: LocalDateTime = LocalDateTime.now()
         val sysDate: LocalDate =
-                LocalDate.of(localDate.year, localDate.monthValue, localDate.dayOfMonth)
+            LocalDate.of(localDate.year, localDate.monthValue, localDate.dayOfMonth)
 
         val valDate: LocalDate =
-                LocalDate.parse(returnDateString, formater)
+            LocalDate.parse(returnDateString, formater)
         return ChronoUnit.DAYS.between(sysDate, valDate).toInt()
 
     }
