@@ -15,7 +15,7 @@ import com.example.projektzd.database.DatabaseHelper
 import com.example.projektzd.fragments.AuthorsFragment
 import com.example.projektzd.fragments.HelpFragment
 import com.example.projektzd.fragments.HomeFragment
-import com.example.projektzd.fragments.favouriteFragments.FavoriteListFragment
+import com.example.projektzd.fragments.favouriteFragments.CompletedListFragment
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 R.anim.slide_out_right
             ).replace(
                 R.id.fragment_container,
-                FavoriteListFragment(
+                CompletedListFragment(
                     supportFragmentManager,
                     dbHelper
                 )

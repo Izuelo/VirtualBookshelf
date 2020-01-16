@@ -1,6 +1,5 @@
 package com.example.projektzd.adapters.adapterDatabase
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +23,7 @@ class RecyclerAdapterDatabase(
     private val listener: RecyclerViewClickListener
 ) : RecyclerView.Adapter<RecyclerAdapterDatabase.ViewHolderDatabase>() {
 
-    private val entities: MutableList<Book> = mutableListOf()
+    val entities: MutableList<Book> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderDatabase {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -87,12 +86,12 @@ class RecyclerAdapterDatabase(
             while (cursor.moveToNext()) {
                 read = cursor.getInt(0)
             }
-            if (favorite.equals(0)) {
+            if (favorite == 0) {
                 favoriteBook.setImageResource(R.drawable.unfilledfavorite)
             } else
                 favoriteBook.setImageResource(R.drawable.favorite_fill)
 
-            if (read.equals(0)) {
+            if (read == 0) {
                 readBook.setImageResource(R.drawable.unread_icon)
             } else
                 readBook.setImageResource(R.drawable.read_icon)
