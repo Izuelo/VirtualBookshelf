@@ -57,7 +57,6 @@ class RecyclerAdapterDatabase(
         listener: RecyclerViewClickListener
     ) :
         RecyclerView.ViewHolder(itemView), View.OnClickListener {
-
         private val bookTitle: TextView = itemView.findViewById(R.id.bookTitle)
         private val rentalDate: TextView = itemView.findViewById(R.id.rentalDate)
         private val returnDate: TextView = itemView.findViewById(R.id.returnDate)

@@ -15,6 +15,7 @@ import com.example.projektzd.database.DatabaseHelper
 import com.example.projektzd.fragments.AuthorsFragment
 import com.example.projektzd.fragments.HelpFragment
 import com.example.projektzd.fragments.HomeFragment
+import com.example.projektzd.fragments.favouriteFragments.FavoriteListFragment
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -72,6 +73,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     dbHelper
                 )
             ).addToBackStack("MyList").commit()
+            R.id.nav_completed -> supportFragmentManager.beginTransaction().setCustomAnimations(
+                R.anim.slide_in_right,
+                R.anim.slide_out_left,
+                R.anim.slide_in_left,
+                R.anim.slide_out_right
+            ).replace(
+                R.id.fragment_container,
+                FavoriteListFragment(
+                    supportFragmentManager,
+                    dbHelper
+                )
+            ).addToBackStack("Completed").commit()
             R.id.nav_search -> supportFragmentManager.beginTransaction().setCustomAnimations(
                 R.anim.slide_in_right,
                 R.anim.slide_out_left,
