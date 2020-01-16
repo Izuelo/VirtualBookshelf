@@ -24,25 +24,18 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/description"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/updateBtn"
-                tools:layout_editor_absoluteY="417dp" />
 
             <TextView
                 android:id="@+id/author"
-                android:layout_width="59dp"
-                android:layout_height="21dp"
-                android:layout_marginStart="40dp"
-                android:text="@string/publisher"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/author"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.337"
-                app:layout_constraintStart_toEndOf="@+id/rentalDateBtn"
-                tools:layout_editor_absoluteY="218dp" />
+                app:layout_constraintStart_toEndOf="@+id/bookThumbnail"
+                app:layout_constraintTop_toBottomOf="@+id/bookTitle" />
 
             <ImageView
                 android:id="@+id/bookThumbnail"
@@ -73,12 +66,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="11dp"
                 android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
                 android:text="Page count"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/bookThumbnail"
-                app:layout_constraintTop_toBottomOf="@+id/bookTitle" />
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/addBtn" />
 
             <Button
                 android:id="@+id/addBtn"
@@ -121,6 +115,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/rentalDateBtn" />
 
             <View
+                android:id="@+id/view2"
                 android:layout_width="1dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="4dp"
@@ -140,6 +135,32 @@
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/rentalDateBtn"
                 app:layout_constraintTop_toBottomOf="@+id/returnDateBtn" />
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/pageCount"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/rentalDateTxt"
+                app:layout_constraintTop_toBottomOf="@+id/author"
+                app:layout_constraintVertical_bias="1.0">
+
+
+                <TextView
+                    android:id="@+id/description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="96dp"
+                    android:text="@string/description"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/updateBtn"
+                    tools:layout_editor_absoluteY="83dp" />
+
+
+            </ScrollView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
