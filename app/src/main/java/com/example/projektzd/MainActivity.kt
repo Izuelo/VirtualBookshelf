@@ -32,51 +32,76 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val navigationView: NavigationView = findViewById(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener(this)
         val toggle = ActionBarDrawerToggle(
-                this,
-                drawer,
-                toolbar,
-                R.string.navigation_drawer_open,
-                R.string.navigation_drawer_close
+            this,
+            drawer,
+            toolbar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
         )
 
         drawer.addDrawerListener(toggle)
         toggle.syncState()
-        if(savedInstanceState==null) {
+        if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction().replace(
-            R.id.fragment_container,
-            HomeFragment()
+                R.id.fragment_container,
+                HomeFragment()
             ).addToBackStack("HomeFragment").commit()
         }
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.nav_home -> supportFragmentManager.beginTransaction().replace(
+            R.id.nav_home -> supportFragmentManager.beginTransaction().setCustomAnimations(
+                R.anim.slide_in_right,
+                R.anim.slide_out_left,
+                R.anim.slide_in_left,
+                R.anim.slide_out_right
+            ).replace(
                 R.id.fragment_container,
                 HomeFragment()
             ).addToBackStack("HomeFragment").commit()
-            R.id.nav_library -> supportFragmentManager.beginTransaction().replace(
-                    R.id.fragment_container,
-                    ListFragment(
-                            supportFragmentManager,
-                            dbHelper
-                    )
+            R.id.nav_library -> supportFragmentManager.beginTransaction().setCustomAnimations(
+                R.anim.slide_in_right,
+                R.anim.slide_out_left,
+                R.anim.slide_in_left,
+                R.anim.slide_out_right
+            ).replace(
+                R.id.fragment_container,
+                ListFragment(
+                    supportFragmentManager,
+                    dbHelper
+                )
             ).addToBackStack("MyList").commit()
-            R.id.nav_search -> supportFragmentManager.beginTransaction().replace(
-                    R.id.fragment_container,
-                    SearchFragment(
-                            supportFragmentManager,
-                            dbHelper
-                    )
+            R.id.nav_search -> supportFragmentManager.beginTransaction().setCustomAnimations(
+                R.anim.slide_in_right,
+                R.anim.slide_out_left,
+                R.anim.slide_in_left,
+                R.anim.slide_out_right
+            ).replace(
+                R.id.fragment_container,
+                SearchFragment(
+                    supportFragmentManager,
+                    dbHelper
+                )
             ).addToBackStack("SearchFragment").commit()
-            R.id.nav_help -> supportFragmentManager.beginTransaction().replace(
+            R.id.nav_help -> supportFragmentManager.beginTransaction().setCustomAnimations(
+                R.anim.slide_in_right,
+                R.anim.slide_out_left,
+                R.anim.slide_in_left,
+                R.anim.slide_out_right
+            ).replace(
                 R.id.fragment_container,
                 HelpFragment()
-            ).commit()
-            R.id.nav_info -> supportFragmentManager.beginTransaction().replace(
+            ).addToBackStack("HelpFragment").commit()
+            R.id.nav_info -> supportFragmentManager.beginTransaction().setCustomAnimations(
+                R.anim.slide_in_right,
+                R.anim.slide_out_left,
+                R.anim.slide_in_left,
+                R.anim.slide_out_right
+            ).replace(
                 R.id.fragment_container,
                 AuthorsFragment()
-            ).commit()
+            ).addToBackStack("AuthorsFragment").commit()
         }
         drawer.closeDrawer(GravityCompat.START)
         return true

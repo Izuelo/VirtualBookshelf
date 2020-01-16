@@ -28,26 +28,23 @@ import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 
 class FavoriteFragment(
-        private val supportFragmentManager: FragmentManager,
-        private val dbHelper: DatabaseHelper
+    private val supportFragmentManager: FragmentManager,
+    private val dbHelper: DatabaseHelper
 
 ) : Fragment() {
 
     lateinit var recyclerAdapterDatabase: RecyclerAdapterDatabase
-    lateinit var binding : FragmentFavoriteBinding
+    lateinit var binding: FragmentFavoriteBinding
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         binding =
-                DataBindingUtil.inflate(inflater, R.layout.fragment_favorite, container, false)
+            DataBindingUtil.inflate(inflater, R.layout.fragment_favorite, container, false)
 
         return binding.root
     }
-
-
-
 
 
 }

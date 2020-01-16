@@ -14,14 +14,13 @@ import com.example.projektzd.database.DatabaseHelper
 import com.example.projektzd.databinding.FragmentSearchBinding
 import android.app.SearchManager
 import android.content.Context
-import android.util.Log
 
 import android.view.*
 import androidx.appcompat.widget.SearchView
 
 class SearchFragment(
-        private val supportFragmentManager: FragmentManager,
-        private val dbHelper: DatabaseHelper
+    private val supportFragmentManager: FragmentManager,
+    private val dbHelper: DatabaseHelper
 ) : Fragment() {
 
     lateinit var recyclerAdapterSearch: RecyclerAdapterSearch
@@ -35,23 +34,23 @@ class SearchFragment(
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
 
         val binding: FragmentSearchBinding =
-                DataBindingUtil.inflate(inflater, R.layout.fragment_search, container, false)
+            DataBindingUtil.inflate(inflater, R.layout.fragment_search, container, false)
 
         recyclerAdapterSearch =
-                RecyclerAdapterSearch(
-                        supportFragmentManager,
-                        dbHelper,
-                        object : RecyclerViewClickListener {
-                            override fun onClick(view: View, position: Int) {
+            RecyclerAdapterSearch(
+                supportFragmentManager,
+                dbHelper,
+                object : RecyclerViewClickListener {
+                    override fun onClick(view: View, position: Int) {
 
-                            }
-                        })
+                    }
+                })
 
         binding.booksList.adapter = recyclerAdapterSearch
         binding.lifecycleOwner = this
@@ -71,7 +70,7 @@ class SearchFragment(
         inflater.inflate(R.menu.options_menu, menu)
         val searchItem = menu.findItem(R.id.search)
         val searchManager =
-                activity!!.getSystemService(Context.SEARCH_SERVICE) as SearchManager
+            activity!!.getSystemService(Context.SEARCH_SERVICE) as SearchManager
 
         if (searchItem != null) {
             searchView = searchItem.actionView as SearchView

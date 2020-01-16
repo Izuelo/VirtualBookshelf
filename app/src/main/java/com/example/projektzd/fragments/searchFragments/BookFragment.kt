@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.Toast
 
 import androidx.core.net.toUri
@@ -27,11 +26,11 @@ import java.time.temporal.ChronoUnit
 import java.util.*
 
 class BookFragment(
-        private val book: ItemsProperty,
-        private val supportFragmentManager: FragmentManager,
-        val dbHelper: DatabaseHelper
+    private val book: ItemsProperty,
+    private val supportFragmentManager: FragmentManager,
+    val dbHelper: DatabaseHelper
 ) :
-        Fragment() {
+    Fragment() {
 
     lateinit var binding: FragmentBookBinding
     var rentalDateString: String = " "
@@ -39,26 +38,26 @@ class BookFragment(
 
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         binding =
-                DataBindingUtil.inflate(inflater, R.layout.fragment_book, container, false)
+            DataBindingUtil.inflate(inflater, R.layout.fragment_book, container, false)
 
         binding.bookTitle.text = book.volumeInfo.title
         binding.pageCount.text = book.volumeInfo.pageCount.toString()
-        if(book.volumeInfo.authors.isNotEmpty())
-        binding.author.text = book.volumeInfo.authors[0]
+        if (book.volumeInfo.authors.isNotEmpty())
+            binding.author.text = book.volumeInfo.authors[0]
         binding.description.text = book.volumeInfo.description
 
         val imgUrl = book.volumeInfo.imageLinks?.thumbnail?.replace("http://", "https://")
         imgUrl?.let {
             val imgUri = imgUrl.toUri().buildUpon()?.build()
             Glide.with(GlobalApplication.appContext!!).load(imgUri)
-                    .fitCenter()
-                    .centerCrop()
-                    .into(binding.bookThumbnail)
+                .fitCenter()
+                .centerCrop()
+                .into(binding.bookThumbnail)
         }
         handleInserts()
         handlePickDate()
@@ -70,21 +69,21 @@ class BookFragment(
         binding.addBtn.setOnClickListener {
             try {
                 var author = " "
-                if(book.volumeInfo.authors.isNotEmpty())
-                 author = book.volumeInfo.authors[0]
+                if (book.volumeInfo.authors.isNotEmpty())
+                    author = book.volumeInfo.authors[0]
 
                 dbHelper.insertData(
-                        book.id,
-                        book.volumeInfo.title,
-                        rentalDateString,
-                        returnDateString,
-                        calcRemainingDays(),
-                        book.volumeInfo.pageCount,
-                        book.volumeInfo.imageLinks?.thumbnail,
-                        false,
-                        false,
-                        author,
-                        book.volumeInfo.description
+                    book.id,
+                    book.volumeInfo.title,
+                    rentalDateString,
+                    returnDateString,
+                    calcRemainingDays(),
+                    book.volumeInfo.pageCount,
+                    book.volumeInfo.imageLinks?.thumbnail,
+                    false,
+                    false,
+                    author,
+                    book.volumeInfo.description
 
                 )
                 showToast("The book was added to Virtual Bookshelf")
@@ -114,11 +113,11 @@ class BookFragment(
     }
 
     private fun handleRentalDate(
-            c: Calendar,
-            year: Int,
-            month: Int,
-            day: Int,
-            sdf: SimpleDateFormat
+        c: Calendar,
+        year: Int,
+        month: Int,
+        day: Int,
+        sdf: SimpleDateFormat
     ) {
         binding.rentalDateBtn.setOnClickListener {
             activity?.let { it1 ->
@@ -145,30 +144,30 @@ class BookFragment(
 
 
     private fun handleReturnDate(
-            c: Calendar,
-            year: Int,
-            month: Int,
-            day: Int,
-            sdf: SimpleDateFormat
+        c: Calendar,
+        year: Int,
+        month: Int,
+        day: Int,
+        sdf: SimpleDateFormat
     ) {
         binding.returnDateBtn.setOnClickListener {
             activity?.let { it1 ->
-               var dpd = DatePickerDialog(
-                        it1,
-                        DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mDay ->
-                            c.set(Calendar.YEAR, mYear)
-                            c.set(Calendar.MONTH, mMonth)
-                            c.set(Calendar.DAY_OF_MONTH, mDay)
+                var dpd = DatePickerDialog(
+                    it1,
+                    DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mDay ->
+                        c.set(Calendar.YEAR, mYear)
+                        c.set(Calendar.MONTH, mMonth)
+                        c.set(Calendar.DAY_OF_MONTH, mDay)
 
-                            returnDateString = sdf.format(c.time)
-                            binding.returnDateTxt.text = returnDateString
-                        },
-                        year,
-                        month,
-                        day
+                        returnDateString = sdf.format(c.time)
+                        binding.returnDateTxt.text = returnDateString
+                    },
+                    year,
+                    month,
+                    day
                 )
 
-                dpd.datePicker.minDate=System.currentTimeMillis()
+                dpd.datePicker.minDate = System.currentTimeMillis()
                 dpd.show()
             }
         }
