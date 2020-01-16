@@ -12,4 +12,8 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="BookTheme">
+        <item name="android:fontFamily">@font/aclonica</item>
+    </style>
+
 </resources>
