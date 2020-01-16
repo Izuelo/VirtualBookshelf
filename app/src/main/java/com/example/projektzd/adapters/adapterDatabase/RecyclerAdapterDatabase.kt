@@ -65,7 +65,7 @@ class RecyclerAdapterDatabase(
         private val bookThumbnail: ImageView = itemView.findViewById(R.id.bookThumbnail)
         private val mListener: WeakReference<RecyclerViewClickListener> = WeakReference(listener)
         private val favoriteBook: ImageView = itemView.findViewById(R.id.fill_heart)
-
+        private val readBook: ImageView = itemView.findViewById(R.id.read_view)
 
         init {
             itemView.setOnClickListener(this)
@@ -78,15 +78,24 @@ class RecyclerAdapterDatabase(
             daysLeft.text = book.remainingDays.toString()
 
             val res = dbHelper.getFavorite(book.id)
+            val cursor = dbHelper.getRead(book.id)
             var favorite = 0
+            var read = 0
             while (res.moveToNext()) {
                 favorite = res.getInt(0)
             }
-            Log.i("Jestem zerem","id = " +book.id + favorite.toString())
+            while (cursor.moveToNext()){
+                read = cursor.getInt(0)
+            }
             if (favorite.equals(0)) {
                 favoriteBook.setImageResource(R.drawable.unfilledfavorite)
             } else
                 favoriteBook.setImageResource(R.drawable.favorite_fill)
+
+            if (read.equals(0)) {
+                readBook.setImageResource(R.drawable.unread_icon)
+            } else
+                readBook.setImageResource(R.drawable.read_icon)
 
             val imgUrl = book.thumbnail?.replace("http://", "https://")
 

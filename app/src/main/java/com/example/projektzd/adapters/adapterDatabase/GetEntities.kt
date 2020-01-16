@@ -25,14 +25,15 @@ class GetEntities(private val dbHelper: DatabaseHelper) {
             val tempList: MutableList<Book> = mutableListOf()
             while (res.moveToNext()) {
                 val book = Book(
-                    id = res.getString(0),
-                    title = res.getString(1),
-                    rentalDate = res.getString(2),
-                    returnDate = res.getString(3),
-                    remainingDays = res.getInt(4),
-                    pageCount = res.getInt(5),
-                    thumbnail = res.getString(6),
-                    favorite = res.getInt(7)
+                        id = res.getString(0),
+                        title = res.getString(1),
+                        rentalDate = res.getString(2),
+                        returnDate = res.getString(3),
+                        remainingDays = res.getInt(4),
+                        numberOfPages = res.getInt(5),
+                        thumbnail = res.getString(6),
+                        favorite = res.getInt(7),
+                        read = res.getInt(8)
                 )
                 tempList.add(book)
             }

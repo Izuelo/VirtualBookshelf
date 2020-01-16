@@ -51,14 +51,15 @@ class EntityFragment(
                 DataBindingUtil.inflate(inflater, R.layout.fragment_entity, container, false)
 
         binding.bookTitle.text = book.title
-        binding.pageCount.text = book.pageCount.toString()
+        binding.pageCount.text = book.numberOfPages.toString()
         binding.rentalDateTxt.text = book.rentalDate
         binding.returnDateTxt.text = book.returnDate
         rentalDateString = book.rentalDate
         returnDateString = book.returnDate
         changeFav(binding.fillHeart)
         addToFavourite(binding.fillHeart)
-
+        changeRead(binding.readView)
+        addToRead(binding.readView)
         val imgUrl = book.thumbnail?.replace("http://", "https://")
         imgUrl.let {
             val imgUri = imgUrl?.toUri()?.buildUpon()?.build()
@@ -75,13 +76,25 @@ class EntityFragment(
         return binding.root
     }
 
+    fun changeRead(imageView: ImageView) {
+        val cursor = dbHelper.getRead(book.id)
+        var read = book.read
+        while (cursor.moveToNext()) {
+            read = cursor.getInt(0)
+        }
+        if (read == 0) {
+            imageView.setImageResource(R.drawable.unread_icon)
+        } else {
+            imageView.setImageResource(R.drawable.read_icon)
+        }
+    }
     fun changeFav(imageView: ImageView) {
         val cursor = dbHelper.getFavorite(book.id)
         var favorite = book.favorite
         while (cursor.moveToNext()) {
                 favorite = cursor.getInt(0)
         }
-        if (favorite.equals(0)) {
+        if (favorite == 0) {
             imageView.setImageResource(R.drawable.unfilledfavorite)
         } else {
             imageView.setImageResource(R.drawable.favorite_fill)
@@ -111,6 +124,33 @@ class EntityFragment(
 
         } catch (e: Exception) {
             Log.i("addToFavourite", e.toString())
+
+        }
+    }
+    fun addToRead(imageView: ImageView) {
+
+        try {
+
+            imageView.setOnClickListener {
+                val cursor = dbHelper.getRead(book.id)
+                var read = 0
+
+                while (cursor.moveToNext()) {
+                    read = cursor.getInt(0)
+                }
+
+                if (read.equals(0)) {
+                    dbHelper.updateRead(book.id, 1)
+                    imageView.setImageResource(R.drawable.read_icon)
+                } else {
+                    dbHelper.updateRead(book.id, 0)
+                    imageView.setImageResource(R.drawable.unread_icon)
+                }
+
+            }
+
+        } catch (e: Exception) {
+            Log.i("addToRead", e.toString())
 
         }
     }
