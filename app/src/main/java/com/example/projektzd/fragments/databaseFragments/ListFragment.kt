@@ -39,6 +39,8 @@ class ListFragment(
         val binding: FragmentListBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_list, container, false)
         val entities = GetEntities(dbHelper)
+        entities.getDatabaseResponse()
+
         recyclerAdapterDatabase =
             RecyclerAdapterDatabase(
                 supportFragmentManager,
@@ -50,7 +52,6 @@ class ListFragment(
                 })
 
         binding.databaseList.adapter = recyclerAdapterDatabase
-
 
         var listIt: MutableList<Book> = mutableListOf()
 

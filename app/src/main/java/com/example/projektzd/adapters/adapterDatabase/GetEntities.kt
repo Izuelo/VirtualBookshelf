@@ -15,11 +15,7 @@ class GetEntities(private val dbHelper: DatabaseHelper) {
     var viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
-    init {
-        getDatabaseResponse()
-    }
-
-    private fun getDatabaseResponse() {
+    fun getDatabaseResponse() {
         coroutineScope.launch {
             val res = dbHelper.allData
             val tempList: MutableList<Book> = mutableListOf()
@@ -38,6 +34,32 @@ class GetEntities(private val dbHelper: DatabaseHelper) {
                     description = res.getString(10)
                 )
                 tempList.add(book)
+            }
+            entitiesList.value = tempList
+        }
+    }
+
+    fun getDatabaseResponseFav() {
+        coroutineScope.launch {
+            val res = dbHelper.allData
+            val tempList: MutableList<Book> = mutableListOf()
+            while (res.moveToNext()) {
+                if (res.getInt(8) == 1) {
+                    val book = Book(
+                        id = res.getString(0),
+                        title = res.getString(1),
+                        rentalDate = res.getString(2),
+                        returnDate = res.getString(3),
+                        remainingDays = res.getInt(4),
+                        numberOfPages = res.getInt(5),
+                        thumbnail = res.getString(6),
+                        favorite = res.getInt(7),
+                        read = res.getInt(8),
+                        authors = res.getString(9),
+                        description = res.getString(10)
+                    )
+                    tempList.add(book)
+                }
             }
             entitiesList.value = tempList
         }
