@@ -3,8 +3,6 @@ package com.example.projektzd.fragments.databaseFragments
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.DatePickerDialog
-import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -21,11 +19,9 @@ import androidx.fragment.app.FragmentManager
 import com.bumptech.glide.Glide
 import com.example.projektzd.GlobalApplication
 import com.example.projektzd.R
-import com.example.projektzd.adapters.adapterDatabase.GetEntities
 import com.example.projektzd.database.Book
 import com.example.projektzd.database.DatabaseHelper
 import com.example.projektzd.databinding.FragmentEntityBinding
-import kotlinx.coroutines.coroutineScope
 import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.time.LocalDate

@@ -67,6 +67,8 @@ class DatabaseHelper(context: FragmentActivity?) :
     ) {
         val db = this.writableDatabase
         val contentValues = ContentValues()
+        reset(db)
+
         contentValues.put(COL_1, id)
         contentValues.put(COL_2, name)
         contentValues.put(COL_3, rentalDate)

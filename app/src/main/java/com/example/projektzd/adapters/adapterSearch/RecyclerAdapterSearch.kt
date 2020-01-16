@@ -63,17 +63,16 @@ class RecyclerAdapterSearch(
         private val bookTitle: TextView = itemView.findViewById(R.id.bookTitle)
         private val bookThumbnail: ImageView = itemView.findViewById(R.id.bookThumbnail)
         private val mListener: WeakReference<RecyclerViewClickListener> = WeakReference(listener)
-        private val descripton: TextView = itemView.findViewById(R.id.description)
         private val author: TextView = itemView.findViewById(R.id.author)
+
         init {
             itemView.setOnClickListener(this)
         }
 
         fun bindModel(book: ItemsProperty) {
             bookTitle.text = book.volumeInfo.title
-            descripton.text = book.volumeInfo.description
-           if(book.volumeInfo.authors.isNotEmpty())
-               author.text = book.volumeInfo.authors[0]
+            if (book.volumeInfo.authors.isNotEmpty())
+                author.text = book.volumeInfo.authors[0]
 
             val imgUrl = book.volumeInfo.imageLinks?.thumbnail?.replace("http://", "https://")
 
