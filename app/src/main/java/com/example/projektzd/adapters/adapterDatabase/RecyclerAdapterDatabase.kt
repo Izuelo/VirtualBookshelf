@@ -11,19 +11,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.projektzd.R
 import com.example.projektzd.adapters.RecyclerViewClickListener
-import com.example.projektzd.database.Book
-import com.example.projektzd.database.DatabaseHelper
-import com.example.projektzd.fragments.databaseFragments.EntityFragment
+import com.example.projektzd.database.BookEntity
+import com.example.projektzd.fragments.libraryBookFragment.LibraryBookFragment
 import java.lang.ref.WeakReference
 
 
 class RecyclerAdapterDatabase(
     private val supportFragmentManager: FragmentManager,
-    private val dbHelper: DatabaseHelper,
     private val listener: RecyclerViewClickListener
 ) : RecyclerView.Adapter<RecyclerAdapterDatabase.ViewHolderDatabase>() {
 
-    val entities: MutableList<Book> = mutableListOf()
+    val entities: MutableList<BookEntity> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderDatabase {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -41,13 +39,13 @@ class RecyclerAdapterDatabase(
         holderSearch.bindModel(entities[position])
     }
 
-    fun setBooks(data: List<Book>) {
+    fun setBooks(data: List<BookEntity>) {
         entities.clear()
         entities.addAll(data)
         notifyDataSetChanged()
     }
 
-    fun getBook(position: Int): Book {
+    fun getBook(position: Int): BookEntity {
         return entities[position]
     }
 
@@ -70,30 +68,22 @@ class RecyclerAdapterDatabase(
             itemView.setOnClickListener(this)
         }
 
-        fun bindModel(book: Book) {
+        fun bindModel(book: BookEntity) {
             bookTitle.text = book.title
             rentalDate.text = book.rentalDate
             returnDate.text = book.returnDate
-            daysLeft.text = book.remainingDays.toString()
+            //TODO: add calculation of remaining days
+            daysLeft.text = "5"
             author.text = book.authors
-            val res = dbHelper.getFavorite(book.id)
-            val cursor = dbHelper.getRead(book.id)
-            var favorite = 0
-            var read = 0
-            while (res.moveToNext()) {
-                favorite = res.getInt(0)
-            }
-            while (cursor.moveToNext()) {
-                read = cursor.getInt(0)
-            }
-            if (favorite == 0) {
+
+            if (book.favorite == 0)
                 favoriteBook.setImageResource(R.drawable.unfilledfavorite)
-            } else
+            else
                 favoriteBook.setImageResource(R.drawable.favorite_fill)
 
-            if (read == 0) {
+            if (book.read == 0)
                 readBook.setImageResource(R.drawable.unread_icon)
-            } else
+            else
                 readBook.setImageResource(R.drawable.read_icon)
 
             val imgUrl = book.thumbnail?.replace("http://", "https://")
@@ -107,10 +97,9 @@ class RecyclerAdapterDatabase(
             }
         }
 
-
         override fun onClick(v: View?) {
             mListener.get()?.onClick(v!!, adapterPosition)
-            val book: Book = getBook(adapterPosition)
+            val book: BookEntity = getBook(adapterPosition)
             supportFragmentManager.beginTransaction().setCustomAnimations(
                 R.anim.slide_in_top,
                 R.anim.slide_out_bottom,
@@ -118,13 +107,11 @@ class RecyclerAdapterDatabase(
                 R.anim.slide_out_top
             ).replace(
                 R.id.fragment_container,
-                EntityFragment(
+                LibraryBookFragment(
                     book,
-                    supportFragmentManager,
-                    dbHelper
+                    supportFragmentManager
                 )
-            ).addToBackStack("BookFragment").commit()
+            ).addToBackStack("ApiBookFragment").commit()
         }
     }
-
 }

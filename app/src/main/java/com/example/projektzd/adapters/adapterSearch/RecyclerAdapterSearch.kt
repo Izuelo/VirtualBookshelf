@@ -12,13 +12,11 @@ import com.bumptech.glide.Glide
 import com.example.projektzd.R
 import com.example.projektzd.adapters.RecyclerViewClickListener
 import com.example.projektzd.database.ApiBookEntity
-import com.example.projektzd.database.DatabaseHelper
-import com.example.projektzd.fragments.bookFragments.BookFragment
+import com.example.projektzd.fragments.apiBookFragments.ApiBookFragment
 import java.lang.ref.WeakReference
 
 class RecyclerAdapterSearch(
     private val supportFragmentManager: FragmentManager,
-    private val dbHelper: DatabaseHelper,
     private val listener: RecyclerViewClickListener
 ) : RecyclerView.Adapter<RecyclerAdapterSearch.ViewHolderSearch>() {
 
@@ -95,11 +93,11 @@ class RecyclerAdapterSearch(
                 R.anim.slide_out_top
             ).replace(
                 R.id.fragment_container,
-                BookFragment(
+                ApiBookFragment(
                     itemsProperty,
                     supportFragmentManager
                 )
-            ).addToBackStack("BookFragment").commit()
+            ).addToBackStack("ApiBookFragment").commit()
         }
     }
 }

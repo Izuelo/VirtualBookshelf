@@ -1,4 +1,4 @@
-package com.example.projektzd.fragments.bookFragments
+package com.example.projektzd.fragments.apiBookFragments
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 
 import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
@@ -17,27 +16,19 @@ import com.bumptech.glide.Glide
 import com.example.projektzd.GlobalApplication
 import com.example.projektzd.R
 import com.example.projektzd.database.ApiBookEntity
-import com.example.projektzd.database.Book
 import com.example.projektzd.database.BookDatabase
-import com.example.projektzd.database.DatabaseHelper
 import com.example.projektzd.databinding.FragmentBookBinding
-import com.example.projektzd.fragments.searchFragments.SearchFragmentViewModel
-import com.example.projektzd.fragments.searchFragments.SearchFragmentViewModelFactory
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.time.temporal.ChronoUnit
 import java.util.*
 
-class BookFragment(
+class ApiBookFragment(
     private val book: ApiBookEntity,
     private val supportFragmentManager: FragmentManager
 ) :
     Fragment() {
 
     lateinit var binding: FragmentBookBinding
-    lateinit var bookFragmentViewModel: BookFragmentViewModel
+    lateinit var apiBookFragmentViewModel: ApiBookFragmentViewModel
     var rentalDateString: String = " "
     var returnDateString: String = " "
 
@@ -68,13 +59,13 @@ class BookFragment(
 
         val application = requireNotNull(this.activity).application
         val dataSource = BookDatabase.getInstance(application).bookDatabaseDao
-        val viewModelFactory = BookFragmentViewModelFactory(dataSource, supportFragmentManager)
-        bookFragmentViewModel =
-            ViewModelProviders.of(this, viewModelFactory).get(BookFragmentViewModel::class.java)
-        binding.fragmentBookViewModel = bookFragmentViewModel
+        val viewModelFactory = ApiBookFragmentViewModelFactory(dataSource, supportFragmentManager)
+        apiBookFragmentViewModel =
+            ViewModelProviders.of(this, viewModelFactory).get(ApiBookFragmentViewModel::class.java)
+        binding.fragmentBookViewModel = apiBookFragmentViewModel
 
         binding.addBtn.setOnClickListener {
-            bookFragmentViewModel.addBook(book, rentalDateString, returnDateString, activity)
+            apiBookFragmentViewModel.addBook(book, rentalDateString, returnDateString)
         }
 
         handlePickDate()

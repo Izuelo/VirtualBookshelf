@@ -13,7 +13,6 @@ data class BookEntity(
     val title: String,
     val rentalDate: String,
     val returnDate: String,
-    val remainingDays: Int,
     val numberOfPages: Int,
     val thumbnail: String? = " ",
     val favorite: Int = 0,

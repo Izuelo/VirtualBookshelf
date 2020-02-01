@@ -9,11 +9,9 @@ import androidx.lifecycle.Observer
 import com.example.projektzd.R
 import com.example.projektzd.adapters.adapterSearch.RecyclerAdapterSearch
 import com.example.projektzd.adapters.RecyclerViewClickListener
-import com.example.projektzd.database.DatabaseHelper
 import com.example.projektzd.databinding.FragmentSearchBinding
 import android.app.SearchManager
 import android.content.Context
-import android.util.Log
 
 import android.view.*
 import androidx.appcompat.widget.SearchView
@@ -21,8 +19,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.projektzd.database.BookDatabase
 
 class SearchFragment(
-    private val supportFragmentManager: FragmentManager,
-    private val dbHelper: DatabaseHelper
+    private val supportFragmentManager: FragmentManager
 ) : Fragment() {
 
     lateinit var searchFragmentViewModel: SearchFragmentViewModel
@@ -53,7 +50,6 @@ class SearchFragment(
         val recyclerAdapterSearch =
             RecyclerAdapterSearch(
                 supportFragmentManager,
-                dbHelper,
                 object : RecyclerViewClickListener {
                     override fun onClick(view: View, position: Int) {
 

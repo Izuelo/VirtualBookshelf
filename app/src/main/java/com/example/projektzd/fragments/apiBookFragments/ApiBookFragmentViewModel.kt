@@ -1,9 +1,10 @@
-package com.example.projektzd.fragments.bookFragments
+package com.example.projektzd.fragments.apiBookFragments
 
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModel
+import com.example.projektzd.GlobalApplication
 import com.example.projektzd.database.ApiBookEntity
 import com.example.projektzd.database.BookDao
 import com.example.projektzd.database.BookEntity
@@ -17,7 +18,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 
-class BookFragmentViewModel(
+class ApiBookFragmentViewModel(
     val database: BookDao,
     val supportFragmentManager: FragmentManager
 ) : ViewModel() {
@@ -28,8 +29,7 @@ class BookFragmentViewModel(
     fun addBook(
         book: ApiBookEntity,
         rentalDateString: String,
-        returnDateString: String,
-        activity: FragmentActivity?
+        returnDateString: String
     ) {
         coroutineScope.launch {
             try {
@@ -42,7 +42,6 @@ class BookFragmentViewModel(
                     title = book.title,
                     rentalDate = rentalDateString,
                     returnDate = returnDateString,
-                    remainingDays = calcRemainingDays(returnDateString),
                     numberOfPages = book.numberOfPages,
                     thumbnail = book.thumbnail,
                     authors = author,
@@ -51,7 +50,7 @@ class BookFragmentViewModel(
 
                 database.insertLibraryBooks(bookEntity)
 
-//                showToast("The book was added to Virtual Bookshelf", activity)
+//                showToast("The book was added to Virtual Bookshelf")
                 supportFragmentManager.popBackStack()
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -70,8 +69,8 @@ class BookFragmentViewModel(
         return ChronoUnit.DAYS.between(sysDate, valDate).toInt()
     }
 
-    fun showToast(text: String, activity: FragmentActivity?) {
-        Toast.makeText(activity, text, Toast.LENGTH_LONG).show()
+    fun showToast(text: String) {
+        Toast.makeText(GlobalApplication.appContext, text, Toast.LENGTH_LONG).show()
     }
 }
 
