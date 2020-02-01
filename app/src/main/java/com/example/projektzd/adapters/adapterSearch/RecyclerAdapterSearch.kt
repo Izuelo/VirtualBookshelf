@@ -11,9 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.projektzd.R
 import com.example.projektzd.adapters.RecyclerViewClickListener
-import com.example.projektzd.api.ItemsProperty
+import com.example.projektzd.database.ApiBookEntity
 import com.example.projektzd.database.DatabaseHelper
-import com.example.projektzd.fragments.searchFragments.BookFragment
+import com.example.projektzd.fragments.bookFragments.BookFragment
 import java.lang.ref.WeakReference
 
 class RecyclerAdapterSearch(
@@ -22,7 +22,7 @@ class RecyclerAdapterSearch(
     private val listener: RecyclerViewClickListener
 ) : RecyclerView.Adapter<RecyclerAdapterSearch.ViewHolderSearch>() {
 
-    private val books: MutableList<ItemsProperty> = mutableListOf()
+    private val books: MutableList<ApiBookEntity> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderSearch {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -45,12 +45,12 @@ class RecyclerAdapterSearch(
         notifyDataSetChanged()
     }
 
-    fun setBooks(data: List<ItemsProperty>) {
+    fun setBooks(data: List<ApiBookEntity>) {
         books.addAll(data)
         notifyDataSetChanged()
     }
 
-    fun getBook(position: Int): ItemsProperty {
+    fun getBook(position: Int): ApiBookEntity {
         return books[position]
     }
 
@@ -69,12 +69,12 @@ class RecyclerAdapterSearch(
             itemView.setOnClickListener(this)
         }
 
-        fun bindModel(book: ItemsProperty) {
-            bookTitle.text = book.volumeInfo.title
-            if (book.volumeInfo.authors.isNotEmpty())
-                author.text = book.volumeInfo.authors[0]
+        fun bindModel(book: ApiBookEntity) {
+            bookTitle.text = book.title
+            if (book.authors!!.isNotEmpty())
+                author.text = book.authors.toString()
 
-            val imgUrl = book.volumeInfo.imageLinks?.thumbnail?.replace("http://", "https://")
+            val imgUrl = book.thumbnail?.replace("http://", "https://")
 
             imgUrl?.let {
                 val imgUri = imgUrl.toUri().buildUpon()?.build()
@@ -87,7 +87,7 @@ class RecyclerAdapterSearch(
 
         override fun onClick(v: View?) {
             mListener.get()?.onClick(v!!, adapterPosition)
-            val itemsProperty: ItemsProperty = getBook(adapterPosition)
+            val itemsProperty: ApiBookEntity = getBook(adapterPosition)
             supportFragmentManager.beginTransaction().setCustomAnimations(
                 R.anim.slide_in_top,
                 R.anim.slide_out_bottom,
@@ -97,8 +97,7 @@ class RecyclerAdapterSearch(
                 R.id.fragment_container,
                 BookFragment(
                     itemsProperty,
-                    supportFragmentManager,
-                    dbHelper
+                    supportFragmentManager
                 )
             ).addToBackStack("BookFragment").commit()
         }

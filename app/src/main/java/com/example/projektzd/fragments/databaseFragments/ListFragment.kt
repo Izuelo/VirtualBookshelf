@@ -52,7 +52,6 @@ class ListFragment(
                 })
 
         binding.databaseList.adapter = recyclerAdapterDatabase
-
         var listIt: MutableList<Book> = mutableListOf()
 
         entities.getEntities().observe(this, Observer { favoritelist ->

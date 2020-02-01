@@ -28,7 +28,7 @@ val retrofit: Retrofit = Retrofit.Builder()
 interface BooksApiService {
     @GET("volumes")
     fun getProperties(@Query("q") type: String):
-            Deferred<VolumesProperty>
+            Deferred<VolumesProperty<ItemsProperty>>
 }
 
 object BooksApi {

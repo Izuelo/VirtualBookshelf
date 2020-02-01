@@ -8,6 +8,8 @@ import androidx.appcompat.widget.Toolbar
 
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.room.Room
+import com.example.projektzd.database.BookDatabase
 import com.example.projektzd.fragments.databaseFragments.ListFragment
 import com.example.projektzd.fragments.searchFragments.SearchFragment
 import com.google.android.material.navigation.NavigationView
@@ -25,6 +27,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
