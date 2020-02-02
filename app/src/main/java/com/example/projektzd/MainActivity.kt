@@ -8,23 +8,22 @@ import androidx.appcompat.widget.Toolbar
 
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import com.example.projektzd.fragments.databaseFragments.ListFragment
-import com.example.projektzd.fragments.searchFragments.SearchFragment
+import com.example.projektzd.fragments.listFragment.ListFragment
+import com.example.projektzd.fragments.searchFragment.SearchFragment
 import com.google.android.material.navigation.NavigationView
-import com.example.projektzd.database.DatabaseHelper
-import com.example.projektzd.fragments.AuthorsFragment
-import com.example.projektzd.fragments.HelpFragment
-import com.example.projektzd.fragments.HomeFragment
-import com.example.projektzd.fragments.favouriteFragments.CompletedListFragment
+import com.example.projektzd.fragments.infoFragments.AuthorsFragment
+import com.example.projektzd.fragments.infoFragments.HelpFragment
+import com.example.projektzd.fragments.infoFragments.HomeFragment
+import com.example.projektzd.fragments.readFragment.ReadListFragment
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    lateinit var drawer: DrawerLayout
-    private val dbHelper = DatabaseHelper(this)
+    private lateinit var drawer: DrawerLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -69,8 +68,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             ).replace(
                 R.id.fragment_container,
                 ListFragment(
-                    supportFragmentManager,
-                    dbHelper
+                    supportFragmentManager
                 )
             ).addToBackStack("MyList").commit()
             R.id.nav_completed -> supportFragmentManager.beginTransaction().setCustomAnimations(
@@ -80,9 +78,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 R.anim.slide_out_right
             ).replace(
                 R.id.fragment_container,
-                CompletedListFragment(
-                    supportFragmentManager,
-                    dbHelper
+                ReadListFragment(
+                    supportFragmentManager
                 )
             ).addToBackStack("Completed").commit()
             R.id.nav_search -> supportFragmentManager.beginTransaction().setCustomAnimations(
@@ -93,8 +90,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             ).replace(
                 R.id.fragment_container,
                 SearchFragment(
-                    supportFragmentManager,
-                    dbHelper
+                    supportFragmentManager
                 )
             ).addToBackStack("SearchFragment").commit()
             R.id.nav_help -> supportFragmentManager.beginTransaction().setCustomAnimations(

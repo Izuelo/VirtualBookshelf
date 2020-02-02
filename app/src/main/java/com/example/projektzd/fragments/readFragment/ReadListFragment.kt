@@ -1,4 +1,4 @@
-package com.example.projektzd.fragments.favouriteFragments
+package com.example.projektzd.fragments.readFragment
 
 import android.os.Bundle
 import android.view.View
@@ -8,18 +8,17 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 
 import com.example.projektzd.R
-import com.example.projektzd.adapters.RecyclerViewClickListener
-import com.example.projektzd.adapters.adapterDatabase.GetEntities
-import com.example.projektzd.adapters.adapterDatabase.RecyclerAdapterDatabase
-import com.example.projektzd.database.DatabaseHelper
+import com.example.projektzd.fragments.adapters.RecyclerViewClickListener
+import com.example.projektzd.fragments.adapters.RecyclerAdapterDatabase
+import com.example.projektzd.database.BookDatabase
 import com.example.projektzd.databinding.FragmentListCompletedBinding
 
-class CompletedListFragment(
-    private val supportFragmentManager: FragmentManager,
-    private val dbHelper: DatabaseHelper
-
+//TODO: change to mvvm and add Room
+class ReadListFragment(
+    private val supportFragmentManager: FragmentManager
 ) : Fragment() {
 
     private lateinit var recyclerAdapterDatabase: RecyclerAdapterDatabase
@@ -32,29 +31,37 @@ class CompletedListFragment(
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_list_completed, container, false)
 
-        val entities = GetEntities(dbHelper)
-        entities.getDatabaseResponseFav()
+        val application = requireNotNull(this.activity).application
+        val dataSource = BookDatabase.getInstance(application).bookDatabaseDao
+        val viewModelFactory = ReadFragmentViewModelFactory(dataSource)
+        val readFragmentViewModel =
+            ViewModelProviders.of(this, viewModelFactory).get(ReadFragmentViewModel::class.java)
 
         recyclerAdapterDatabase =
             RecyclerAdapterDatabase(
                 supportFragmentManager,
-                dbHelper,
                 object : RecyclerViewClickListener {
                     override fun onClick(view: View, position: Int) {
 
                     }
                 })
 
+        binding.fragmentListViewModel = readFragmentViewModel
         binding.completedList.adapter = recyclerAdapterDatabase
 
-        entities.getEntities().observe(this, Observer {
-            it?.let {
+        readFragmentViewModel.mutableBooksList.observe(this, Observer {
+            it.let {
+                recyclerAdapterDatabase.setBooks(it)
+            }
+        })
+
+        readFragmentViewModel.modifiedBooksList.observe(this, Observer {
+            it.let {
                 recyclerAdapterDatabase.setBooks(it)
             }
         })
 
         return binding.root
     }
-
 
 }

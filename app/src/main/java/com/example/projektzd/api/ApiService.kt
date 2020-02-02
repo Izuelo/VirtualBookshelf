@@ -9,11 +9,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-val BASE_URL = "https://www.googleapis.com/books/v1/"
-
-enum class BooksApiFilter(val value: String) {
-    SHOW_ITEMS("intitle:Harry Potter")
-}
+const val BASE_URL = "https://www.googleapis.com/books/v1/"
 
 val moshi: Moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
@@ -27,8 +23,8 @@ val retrofit: Retrofit = Retrofit.Builder()
 
 interface BooksApiService {
     @GET("volumes")
-    fun getProperties(@Query("q") type: String):
-            Deferred<VolumesProperty>
+    fun getPropertiesAsync(@Query("q") type: String):
+            Deferred<VolumesProperty<ItemsProperty>>
 }
 
 object BooksApi {

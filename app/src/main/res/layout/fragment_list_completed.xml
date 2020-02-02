@@ -3,8 +3,8 @@
 
     <data>
         <variable
-            name="fragmentListCompleted"
-            type="com.example.projektzd.fragments.favouriteFragments.CompletedListFragment" />
+            name="fragmentListViewModel"
+            type="com.example.projektzd.fragments.readFragment.ReadFragmentViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

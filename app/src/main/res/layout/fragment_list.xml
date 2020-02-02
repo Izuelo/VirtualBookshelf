@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
-            name="fragmentList"
-            type="com.example.projektzd.fragments.databaseFragments.ListFragment" />
+            name="fragmentListViewModel"
+            type="com.example.projektzd.fragments.listFragment.ListFragmentViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

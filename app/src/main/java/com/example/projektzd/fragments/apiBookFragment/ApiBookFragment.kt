@@ -1,4 +1,4 @@
-package com.example.projektzd.fragments.searchFragments
+package com.example.projektzd.fragments.apiBookFragment
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
@@ -12,29 +12,27 @@ import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.example.projektzd.GlobalApplication
 import com.example.projektzd.R
-import com.example.projektzd.api.ItemsProperty
-import com.example.projektzd.database.DatabaseHelper
+import com.example.projektzd.database.ApiBookEntity
+import com.example.projektzd.database.BookDatabase
 import com.example.projektzd.databinding.FragmentBookBinding
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.time.temporal.ChronoUnit
 import java.util.*
 
-class BookFragment(
-    private val book: ItemsProperty,
-    private val supportFragmentManager: FragmentManager,
-    val dbHelper: DatabaseHelper
+class ApiBookFragment(
+    private val book: ApiBookEntity,
+    private val supportFragmentManager: FragmentManager
 ) :
     Fragment() {
 
     lateinit var binding: FragmentBookBinding
-    var rentalDateString: String = " "
-    var returnDateString: String = " "
+    private lateinit var apiBookFragmentViewModel: ApiBookFragmentViewModel
+    private var rentalDateString: String = " "
+    private var returnDateString: String = " "
 
 
     override fun onCreateView(
@@ -44,14 +42,14 @@ class BookFragment(
     ): View? {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_book, container, false)
+        binding.bookTitle.text = book.title
+        binding.pageCount.text = book.numberOfPages.toString()
+        if (book.authors!!.isNotEmpty())
+            binding.author.text = book.authors
+        binding.description.text = book.description
 
-        binding.bookTitle.text = book.volumeInfo.title
-        binding.pageCount.text = book.volumeInfo.pageCount.toString()
-        if (book.volumeInfo.authors.isNotEmpty())
-            binding.author.text = book.volumeInfo.authors[0]
-        binding.description.text = book.volumeInfo.description
+        val imgUrl = book.thumbnail?.replace("http://", "https://")
 
-        val imgUrl = book.volumeInfo.imageLinks?.thumbnail?.replace("http://", "https://")
         imgUrl?.let {
             val imgUri = imgUrl.toUri().buildUpon()?.build()
             Glide.with(GlobalApplication.appContext!!).load(imgUri)
@@ -59,39 +57,31 @@ class BookFragment(
                 .centerCrop()
                 .into(binding.bookThumbnail)
         }
-        handleInserts()
-        handlePickDate()
 
-        return binding.root
-    }
+        val application = requireNotNull(this.activity).application
+        val dataSource = BookDatabase.getInstance(application).bookDatabaseDao
+        val viewModelFactory = ApiBookFragmentViewModelFactory(dataSource, supportFragmentManager)
+        apiBookFragmentViewModel =
+            ViewModelProviders.of(this, viewModelFactory).get(ApiBookFragmentViewModel::class.java)
+        binding.fragmentBookViewModel = apiBookFragmentViewModel
 
-    private fun handleInserts() {
         binding.addBtn.setOnClickListener {
-            try {
-                var author = " "
-                if (book.volumeInfo.authors.isNotEmpty())
-                    author = book.volumeInfo.authors[0]
-
-                dbHelper.insertData(
-                    book.id,
-                    book.volumeInfo.title,
-                    rentalDateString,
-                    returnDateString,
-                    calcRemainingDays(),
-                    book.volumeInfo.pageCount,
-                    book.volumeInfo.imageLinks?.thumbnail,
-                    false,
-                    false,
-                    author,
-                    book.volumeInfo.description
-
-                )
-                showToast("The book was added to Virtual Bookshelf")
-                supportFragmentManager.popBackStack()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+            apiBookFragmentViewModel.addBook(book, rentalDateString, returnDateString)
         }
+
+        apiBookFragmentViewModel.isInsertedObserver.observe(this, Observer {
+            it.let {
+                if (it == 1) {
+                    showToast("The book was added to Virtual Bookshelf")
+                    supportFragmentManager.popBackStack()
+                } else {
+                    showToast("There was a problem while adding ${book.title}")
+                }
+            }
+        })
+
+        handlePickDate()
+        return binding.root
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -121,9 +111,9 @@ class BookFragment(
     ) {
         binding.rentalDateBtn.setOnClickListener {
             activity?.let { it1 ->
-                var dpd = DatePickerDialog(
+                val dpd = DatePickerDialog(
                     it1,
-                    DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mDay ->
+                    DatePickerDialog.OnDateSetListener { _, mYear, mMonth, mDay ->
                         c.set(Calendar.YEAR, mYear)
                         c.set(Calendar.MONTH, mMonth)
                         c.set(Calendar.DAY_OF_MONTH, mDay)
@@ -152,9 +142,9 @@ class BookFragment(
     ) {
         binding.returnDateBtn.setOnClickListener {
             activity?.let { it1 ->
-                var dpd = DatePickerDialog(
+                val dpd = DatePickerDialog(
                     it1,
-                    DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mDay ->
+                    DatePickerDialog.OnDateSetListener { _, mYear, mMonth, mDay ->
                         c.set(Calendar.YEAR, mYear)
                         c.set(Calendar.MONTH, mMonth)
                         c.set(Calendar.DAY_OF_MONTH, mDay)
@@ -173,19 +163,7 @@ class BookFragment(
         }
     }
 
-    private fun calcRemainingDays(): Int {
-        val formater = DateTimeFormatter.ofPattern("dd-MM-yyyy")
-        val localDate: LocalDateTime = LocalDateTime.now()
-        val sysDate: LocalDate =
-            LocalDate.of(localDate.year, localDate.monthValue, localDate.dayOfMonth)
-
-        val valDate: LocalDate =
-            LocalDate.parse(returnDateString, formater)
-        return ChronoUnit.DAYS.between(sysDate, valDate).toInt()
-    }
-
-    fun showToast(text: String) {
+    private fun showToast(text: String) {
         Toast.makeText(activity, text, Toast.LENGTH_LONG).show()
     }
-
 }

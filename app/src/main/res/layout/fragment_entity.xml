@@ -7,8 +7,8 @@
     <data>
 
         <variable
-            name="fragmentEntity"
-            type="com.example.projektzd.fragments.databaseFragments.EntityFragment" />
+            name="fragmentLibraryBookViewModel"
+            type="com.example.projektzd.fragments.libraryBookFragment.LibraryBookViewModel" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
