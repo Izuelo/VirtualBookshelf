@@ -1,4 +1,4 @@
-package com.example.projektzd.fragments
+package com.example.projektzd.fragments.infoFragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

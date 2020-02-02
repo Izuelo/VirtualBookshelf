@@ -8,13 +8,13 @@ import androidx.appcompat.widget.Toolbar
 
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import com.example.projektzd.fragments.databaseFragments.ListFragment
-import com.example.projektzd.fragments.searchFragments.SearchFragment
+import com.example.projektzd.fragments.listFragment.ListFragment
+import com.example.projektzd.fragments.searchFragment.SearchFragment
 import com.google.android.material.navigation.NavigationView
-import com.example.projektzd.fragments.AuthorsFragment
-import com.example.projektzd.fragments.HelpFragment
-import com.example.projektzd.fragments.HomeFragment
-import com.example.projektzd.fragments.favouriteFragments.CompletedListFragment
+import com.example.projektzd.fragments.infoFragments.AuthorsFragment
+import com.example.projektzd.fragments.infoFragments.HelpFragment
+import com.example.projektzd.fragments.infoFragments.HomeFragment
+import com.example.projektzd.fragments.readFragment.ReadListFragment
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 R.anim.slide_out_right
             ).replace(
                 R.id.fragment_container,
-                CompletedListFragment(
+                ReadListFragment(
                     supportFragmentManager
                 )
             ).addToBackStack("Completed").commit()

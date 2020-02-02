@@ -2,18 +2,18 @@ package com.example.projektzd.fragments.libraryBookFragment
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.example.projektzd.GlobalApplication
@@ -22,10 +22,6 @@ import com.example.projektzd.database.BookDatabase
 import com.example.projektzd.database.BookEntity
 import com.example.projektzd.databinding.FragmentEntityBinding
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.time.temporal.ChronoUnit
 import java.util.*
 
 class LibraryBookFragment(
@@ -77,16 +73,70 @@ class LibraryBookFragment(
             libraryBookViewModel.addToFavourite(binding.fillHeart)
         }
         binding.readView.setOnClickListener {
-            libraryBookViewModel.addToRead(binding.readView)
+            context?.let { it1 ->
+                AlertDialog.Builder(it1)
+                    .setTitle("Do you want to change status of your book?")
+                    .setMessage(book.title)
+                    .setPositiveButton("YES") { _, _ ->
+                        libraryBookViewModel.addToRead(binding.readView)
+                    }
+                    .setNegativeButton("No") { _, _ ->
+                        showToast("Nothing has changed")
+                    }
+                    .create()
+                    .show()
+            }
+
         }
         binding.deleteBtn.setOnClickListener {
-            libraryBookViewModel.handleDelete()
+            context?.let { it1 ->
+                AlertDialog.Builder(it1)
+                    .setTitle("Do you want to delete this book")
+                    .setMessage(book.title)
+                    .setPositiveButton("YES") { _, _ ->
+                        libraryBookViewModel.handleDelete()
+                    }
+                    .setNegativeButton("No") { _, _ ->
+                        showToast("Nothing has changed")
+                    }
+                    .create()
+                    .show()
+            }
         }
         binding.updateBtn.setOnClickListener {
-            Log.i("XDD", "$rentalDateString   $returnDateString")
             libraryBookViewModel.handleUpdate(rentalDateString, returnDateString)
         }
+
         handlePickDate()
+
+        libraryBookViewModel.isDeletedObserver.observe(this, Observer {
+            it.let {
+                if (it > 0) {
+                    supportFragmentManager.popBackStack()
+                    showToast("${book.title} was removed")
+                } else
+                    showToast("There was a problem while removing ${book.title}")
+            }
+        })
+
+        libraryBookViewModel.isReadObserver.observe(this, Observer {
+            it.let {
+                if (it > 0) {
+                    showToast("${book.title} read status updated")
+                } else
+                    showToast("There was a problem while updating ${book.title}")
+            }
+        })
+
+        libraryBookViewModel.isUpdatedObserver.observe(this, Observer {
+            it.let {
+                if (it > 0) {
+                    supportFragmentManager.popBackStack()
+                    showToast("Date has changed")
+                } else
+                    showToast("There was a problem while updating ${book.title}")
+            }
+        })
 
         return binding.root
     }
@@ -162,4 +212,7 @@ class LibraryBookFragment(
         }
     }
 
+    private fun showToast(text: String) {
+        Toast.makeText(activity, text, Toast.LENGTH_LONG).show()
+    }
 }

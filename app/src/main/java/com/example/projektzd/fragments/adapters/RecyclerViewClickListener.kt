@@ -1,4 +1,4 @@
-package com.example.projektzd.adapters
+package com.example.projektzd.fragments.adapters
 
 import android.view.View
 

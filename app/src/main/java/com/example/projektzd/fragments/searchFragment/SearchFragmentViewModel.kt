@@ -1,4 +1,4 @@
-package com.example.projektzd.fragments.searchFragments
+package com.example.projektzd.fragments.searchFragment
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -23,7 +23,7 @@ class SearchFragmentViewModel(
             try {
                 if (search.isNotEmpty()) {
                     val getPropertiesDeferred =
-                        BooksApi.booksApi.getProperties("intitle:$search")
+                        BooksApi.booksApi.getPropertiesAsync("intitle:$search")
                     val booksList = getPropertiesDeferred.await().items
                     val booksEntityList = booksList.toEntity()
                     database.insertApiBooks(*booksEntityList.toTypedArray())

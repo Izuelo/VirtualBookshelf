@@ -1,4 +1,4 @@
-package com.example.projektzd.fragments.apiBookFragments
+package com.example.projektzd.fragments.apiBookFragment
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
@@ -6,12 +6,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 
 import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.example.projektzd.GlobalApplication
 import com.example.projektzd.R
@@ -28,9 +30,9 @@ class ApiBookFragment(
     Fragment() {
 
     lateinit var binding: FragmentBookBinding
-    lateinit var apiBookFragmentViewModel: ApiBookFragmentViewModel
-    var rentalDateString: String = " "
-    var returnDateString: String = " "
+    private lateinit var apiBookFragmentViewModel: ApiBookFragmentViewModel
+    private var rentalDateString: String = " "
+    private var returnDateString: String = " "
 
 
     override fun onCreateView(
@@ -48,7 +50,6 @@ class ApiBookFragment(
 
         val imgUrl = book.thumbnail?.replace("http://", "https://")
 
-        //TODO: move Glide to utils
         imgUrl?.let {
             val imgUri = imgUrl.toUri().buildUpon()?.build()
             Glide.with(GlobalApplication.appContext!!).load(imgUri)
@@ -67,6 +68,17 @@ class ApiBookFragment(
         binding.addBtn.setOnClickListener {
             apiBookFragmentViewModel.addBook(book, rentalDateString, returnDateString)
         }
+
+        apiBookFragmentViewModel.isInsertedObserver.observe(this, Observer {
+            it.let {
+                if (it == 1) {
+                    showToast("The book was added to Virtual Bookshelf")
+                    supportFragmentManager.popBackStack()
+                } else {
+                    showToast("There was a problem while adding ${book.title}")
+                }
+            }
+        })
 
         handlePickDate()
         return binding.root
@@ -101,7 +113,7 @@ class ApiBookFragment(
             activity?.let { it1 ->
                 val dpd = DatePickerDialog(
                     it1,
-                    DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mDay ->
+                    DatePickerDialog.OnDateSetListener { _, mYear, mMonth, mDay ->
                         c.set(Calendar.YEAR, mYear)
                         c.set(Calendar.MONTH, mMonth)
                         c.set(Calendar.DAY_OF_MONTH, mDay)
@@ -132,7 +144,7 @@ class ApiBookFragment(
             activity?.let { it1 ->
                 val dpd = DatePickerDialog(
                     it1,
-                    DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mDay ->
+                    DatePickerDialog.OnDateSetListener { _, mYear, mMonth, mDay ->
                         c.set(Calendar.YEAR, mYear)
                         c.set(Calendar.MONTH, mMonth)
                         c.set(Calendar.DAY_OF_MONTH, mDay)
@@ -149,5 +161,9 @@ class ApiBookFragment(
                 dpd.show()
             }
         }
+    }
+
+    private fun showToast(text: String) {
+        Toast.makeText(activity, text, Toast.LENGTH_LONG).show()
     }
 }

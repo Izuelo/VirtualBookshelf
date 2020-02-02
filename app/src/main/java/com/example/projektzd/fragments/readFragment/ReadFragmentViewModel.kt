@@ -1,5 +1,6 @@
-package com.example.projektzd.fragments.databaseFragments
+package com.example.projektzd.fragments.readFragment
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.projektzd.database.BookDao
@@ -10,24 +11,29 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.util.*
 
-class ListFragmentViewModel(
+class ReadFragmentViewModel(
     val database: BookDao
 ) : ViewModel() {
     private var list = LinkedList<BookEntity>()
     var mutableBooksList = MutableLiveData<List<BookEntity>>(list)
+    var modifiedBooksList: LiveData<List<BookEntity>> = database.getLiveLibraryRead()
     private var viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.IO)
 
     init {
-        getDatabaseResponse()
+        getDatabaseLibrary()
     }
 
-    private fun getDatabaseResponse() {
+    private fun getDatabaseLibrary() {
         coroutineScope.launch {
-            val booksList = database.getLibraryBooks()
-            list.clear()
-            list.addAll(booksList)
-            mutableBooksList.postValue(booksList)
+            try {
+                val booksList = database.getLibraryRead()
+                list.clear()
+                list.addAll(booksList)
+                mutableBooksList.postValue(booksList)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 }

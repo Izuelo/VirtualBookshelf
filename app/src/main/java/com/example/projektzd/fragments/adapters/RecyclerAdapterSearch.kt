@@ -1,4 +1,4 @@
-package com.example.projektzd.adapters.adapterSearch
+package com.example.projektzd.fragments.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -10,9 +10,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.projektzd.R
-import com.example.projektzd.adapters.RecyclerViewClickListener
 import com.example.projektzd.database.ApiBookEntity
-import com.example.projektzd.fragments.apiBookFragments.ApiBookFragment
+import com.example.projektzd.fragments.apiBookFragment.ApiBookFragment
 import java.lang.ref.WeakReference
 
 class RecyclerAdapterSearch(

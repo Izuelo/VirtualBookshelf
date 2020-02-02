@@ -1,4 +1,4 @@
-package com.example.projektzd.fragments.apiBookFragments
+package com.example.projektzd.fragments.apiBookFragment
 
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModel

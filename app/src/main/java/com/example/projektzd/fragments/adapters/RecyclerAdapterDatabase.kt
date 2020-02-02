@@ -1,4 +1,4 @@
-package com.example.projektzd.adapters.adapterDatabase
+package com.example.projektzd.fragments.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -10,10 +10,13 @@ import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.projektzd.R
-import com.example.projektzd.adapters.RecyclerViewClickListener
 import com.example.projektzd.database.BookEntity
 import com.example.projektzd.fragments.libraryBookFragment.LibraryBookFragment
 import java.lang.ref.WeakReference
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 
 
 class RecyclerAdapterDatabase(
@@ -72,8 +75,7 @@ class RecyclerAdapterDatabase(
             bookTitle.text = book.title
             rentalDate.text = book.rentalDate
             returnDate.text = book.returnDate
-            //TODO: add calculation of remaining days
-            daysLeft.text = "5"
+            daysLeft.text = calcRemainingDays(book.returnDate).toString()
             author.text = book.authors
 
             if (book.favorite == 0)
@@ -114,4 +116,15 @@ class RecyclerAdapterDatabase(
             ).addToBackStack("ApiBookFragment").commit()
         }
     }
+}
+
+private fun calcRemainingDays(returnDateString: String): Int {
+    val formater = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+    val localDate: LocalDateTime = LocalDateTime.now()
+    val sysDate: LocalDate =
+        LocalDate.of(localDate.year, localDate.monthValue, localDate.dayOfMonth)
+
+    val valDate: LocalDate =
+        LocalDate.parse(returnDateString, formater)
+    return ChronoUnit.DAYS.between(sysDate, valDate).toInt()
 }

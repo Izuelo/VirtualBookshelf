@@ -1,4 +1,4 @@
-package com.example.projektzd.fragments.searchFragments
+package com.example.projektzd.fragments.searchFragment
 
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
@@ -7,8 +7,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 
 import com.example.projektzd.R
-import com.example.projektzd.adapters.adapterSearch.RecyclerAdapterSearch
-import com.example.projektzd.adapters.RecyclerViewClickListener
+import com.example.projektzd.fragments.adapters.RecyclerAdapterSearch
+import com.example.projektzd.fragments.adapters.RecyclerViewClickListener
 import com.example.projektzd.databinding.FragmentSearchBinding
 import android.app.SearchManager
 import android.content.Context

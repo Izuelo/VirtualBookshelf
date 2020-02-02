@@ -1,9 +1,10 @@
-package com.example.projektzd.fragments.databaseFragments
+package com.example.projektzd.fragments.listFragment
 
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.view.LayoutInflater
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -11,12 +12,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 
 import com.example.projektzd.R
-import com.example.projektzd.adapters.*
-import com.example.projektzd.adapters.adapterDatabase.RecyclerAdapterDatabase
+import com.example.projektzd.fragments.adapters.*
+import com.example.projektzd.fragments.adapters.RecyclerAdapterDatabase
 import com.example.projektzd.database.BookDatabase
-import com.example.projektzd.database.BookEntity
 import com.example.projektzd.databinding.FragmentListBinding
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -25,9 +24,8 @@ import java.time.temporal.ChronoUnit
 class ListFragment(
     private val supportFragmentManager: FragmentManager
 ) : Fragment() {
+    private lateinit var recyclerAdapterDatabase: RecyclerAdapterDatabase
 
-    lateinit var recyclerAdapterDatabase: RecyclerAdapterDatabase
-    var favoriteOrNot = true
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -42,7 +40,6 @@ class ListFragment(
         val listFragmentViewModel =
             ViewModelProviders.of(this, viewModelFactory).get(ListFragmentViewModel::class.java)
 
-
         recyclerAdapterDatabase =
             RecyclerAdapterDatabase(
                 supportFragmentManager,
@@ -54,47 +51,43 @@ class ListFragment(
         binding.fragmentListViewModel = listFragmentViewModel
         binding.databaseList.adapter = recyclerAdapterDatabase
 
-        //TODO: add sorting by favourite (serduszko <3)
-        //TODO: add Toasts or other form of confirmation when deleting, updating and inserting
-        var listIt: MutableList<BookEntity> = mutableListOf()
+
+        binding.favorite.setOnClickListener {
+            listFragmentViewModel.getDatabaseFavourites()
+        }
 
         listFragmentViewModel.mutableBooksList.observe(this, Observer {
-            it?.let {
-                listIt.addAll(it)
+            it.let {
                 recyclerAdapterDatabase.setBooks(it)
-//                it.forEach {
-//                    it.remainingDays = calcRemainingDays(it.returnDate)
-//                    if (it.remainingDays <= 3)
-//                        Toast.makeText(
-//                            activity,
-//                            "Your rental period is coming to an end",
-//                            Toast.LENGTH_LONG
-//                        ).show()
-//                }
+                it.forEach { it1 ->
+                    val remainingDays = calcRemainingDays(it1.returnDate)
+                    if (remainingDays <= 3)
+                        Toast.makeText(
+                            activity,
+                            "Your rental period is coming to an end",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                }
             }
         })
 
-        var favoriteListFragment: FloatingActionButton = binding.favorite
-
-//        favoriteListFragment.setOnClickListener {
-//            favoriteOrNot = !favoriteOrNot
-//
-//            if (favoriteOrNot) {
-//                recyclerAdapterDatabase.setBooks(listIt)
-//            } else {
-//                var booksList: MutableList<Book> = mutableListOf()
-//
-//                listIt.forEach {
-//                    if (it.favorite == 1)
-//                        booksList.add(it)
-//                }
-//                recyclerAdapterDatabase.setBooks(booksList)
-//            }
-//
-//        }
+        listFragmentViewModel.modifiedBooksList.observe(this, Observer {
+            it.let {
+                recyclerAdapterDatabase.setBooks(it)
+                listFragmentViewModel.isFavourite = false
+                it.forEach { it1 ->
+                    val remainingDays = calcRemainingDays(it1.returnDate)
+                    if (remainingDays <= 3)
+                        Toast.makeText(
+                            activity,
+                            "Your rental period is coming to an end",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                }
+            }
+        })
         return binding.root
     }
-
 
     private fun calcRemainingDays(returnDateString: String): Int {
         val formater = DateTimeFormatter.ofPattern("dd-MM-yyyy")
